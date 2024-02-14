@@ -21,6 +21,10 @@ export default function Spotify() {
       : setHeaderBackground(false);
   };
 
+  useEffect(()=>{
+    window.history.pushState({}, '', '/');
+  },[])
+
   useEffect(() => {
     getUserInfo(dispatch, token);
   }, [dispatch, token]);
