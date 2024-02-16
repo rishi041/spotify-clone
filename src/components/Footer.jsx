@@ -28,5 +28,5 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   padding: 0 1rem;
-  background: linear-gradient(transparent, rgb(32, 87, 100),rgb(0, 0, 0));
+  background: linear-gradient(rgb(24 64 74),black);
 `;
