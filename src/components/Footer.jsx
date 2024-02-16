@@ -1,13 +1,16 @@
 import styled from "styled-components";
 // import Player from "./Player";
 import MusicPlayer from "./MusicPlayer";
-// import {AiFillGithub, AiFillInstagram} from "react-icons/ai"
-// import {FaLinkedinIn} from "react-icons/fa"
+import {AiFillGithub, AiFillInstagram} from "react-icons/ai"
+import {FaLinkedinIn} from "react-icons/fa"
 
 export default function Footer() {
   return (
     <Container>
       <MusicPlayer />
+      <AiFillGithub/>
+      <AiFillInstagram/>
+      <FaLinkedinIn/>
     </Container>
   );
 }
