@@ -7,11 +7,10 @@ export default function Login() {
 
   return (
     <Container>
-{/*       <img
+      <img
         src="https://storage.googleapis.com/pr-newsroom-wp/1/2018/11/Spotify_Logo_RGB_Black.png"
         alt="spotify"
-      /> */}
-      <svg aria-label="Spotify for Developers" xmlns="http://www.w3.org/2000/svg" width="240" height="34"><use href="/images/spotify-for-developers-logo.svg#s4d-logo"></use></svg>
+      />      
       <button onClick={handleClick}>Connect RDG Spotify Clone</button>
     </Container>
   );
