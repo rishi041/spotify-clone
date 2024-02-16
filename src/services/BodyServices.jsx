@@ -43,12 +43,22 @@ export const playTrack = async (
   name,
   artists,
   trackImage,
-  context_uri,
   preview_url,
-  track_number,
-  token,
+  // context_uri,
+  // track_number,
+  // token,
   dispatch,
 ) => {
+  const currentPlaying = {
+    id,
+    name,
+    artists,
+    trackImage,
+    preview_url,
+  };
+  console.log(currentPlaying, "currentPlaying");
+  dispatch({ type: reducerCases.SET_PLAYING, currentPlaying });
+  dispatch({ type: reducerCases.SET_PLAYER_STATE, playerState: true });
   // const response = await axios.put(
   //   `https://api.spotify.com/v1/me/player/play`,
   //   {
@@ -66,15 +76,7 @@ export const playTrack = async (
   //   },
   // );
   // if (response.status === 204) {
-  const currentPlaying = {
-    id,
-    name,
-    artists,
-    trackImage,
-    preview_url,
-  };
-  dispatch({ type: reducerCases.SET_PLAYING, currentPlaying });
-  dispatch({ type: reducerCases.SET_PLAYER_STATE, playerState: true });
+
   // } else {
   //   dispatch({ type: reducerCases.SET_PLAYER_STATE, playerState: true });
   // }
