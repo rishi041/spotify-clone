@@ -9,9 +9,9 @@ export default function Footer() {
     <Container>
       <MusicPlayer />
       <div>
-        <AiFillGithub/>
+{/*         <AiFillGithub/>
         <AiFillInstagram/>
-        <FaLinkedinIn/>
+        <FaLinkedinIn/> */}
       </div>
       
     </Container>
