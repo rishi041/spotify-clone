@@ -92,7 +92,11 @@ export default function MusicPlayer() {
         <div className="musicInfo">
           <div className="musicTitle">
             <img src={data?.trackImage} />
-            <div>{data?.name} </div>
+             {currentPlaying ? (
+              <div className="musicName">{data?.name} </div>
+            ) : (
+              <div className="musicName">{data?.tracks[0].name} </div>
+            )}
           </div>
           <div className="musicControls">
             <div className="progressBar">
