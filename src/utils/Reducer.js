@@ -7,8 +7,10 @@ export const initialState = {
   currentPlaying: null,
   playerState: false,
   selectedPlaylist: null,
-  selectedPlaylistId: "37i9dQZEVXbMDoHDwVN2tF",
+  selectedPlaylistId: "37i9dQZF1DWXtlo6ENS92N",
+  searchPlaylist: [],
 };
+console.log(initialState, "initialState");
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -46,6 +48,11 @@ const reducer = (state, action) => {
       return {
         ...state,
         selectedPlaylistId: action.selectedPlaylistId,
+      };
+    case reducerCases.SET_SEARCH:
+      return {
+        ...state,
+        searchPlaylist: action.searchPlaylist,
       };
     default:
       return state;

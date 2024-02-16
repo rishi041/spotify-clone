@@ -8,9 +8,11 @@ import { getInitialPlaylist, playTrack } from "../services/BodyServices";
 
 // eslint-disable-next-line react/prop-types
 export default function Body({ headerBackground }) {
-  const [{ token, selectedPlaylist, selectedPlaylistId }, dispatch] =
-    useStateProvider();
-
+  const [
+    { token, selectedPlaylist, selectedPlaylistId, searchPlaylist },
+    dispatch,
+  ] = useStateProvider();
+  console.log(selectedPlaylist, "selectedPlaylist");
   useEffect(() => {
     getInitialPlaylist(token, dispatch, selectedPlaylistId);
   }, [token, dispatch, selectedPlaylistId]);
@@ -26,12 +28,12 @@ export default function Body({ headerBackground }) {
         <>
           <div className="playlist">
             <div className="image">
-              <img src={selectedPlaylist.image} alt="selected playlist" />
+              {/* <img src={selectedPlaylist.image} alt="selected playlist" /> */}
             </div>
             <div className="details">
-              <span className="type">PLAYLIST</span>
-              <h1 className="title">{selectedPlaylist.name}</h1>
-              <p className="description">{selectedPlaylist.description}</p>
+              <span className="type">Search Songs</span>
+              {/* <h1 className="title">{selectedPlaylist.name}</h1> */}
+              {/* <p className="description">{selectedPlaylist.description}</p> */}
             </div>
           </div>
           <div className="list">
@@ -51,63 +53,123 @@ export default function Body({ headerBackground }) {
                 </span>
               </div>
             </div>
-            <div className="tracks">
-              {selectedPlaylist.tracks.map(
-                (
-                  {
-                    id,
-                    name,
-                    artists,
-                    trackImage,
-                    duration,
-                    album,
-                    context_uri,
-                    preview_url,
-                    track_number,
+            {searchPlaylist.tracks ? (
+              <div className="tracks">
+                {searchPlaylist.tracks.items.map(
+                  (
+                    {
+                      id,
+                      name,
+                      artists,
+                      trackImage,
+                      duration_ms,
+                      album,
+                      // context_uri,
+                      preview_url,
+                      track_number,
+                    },
+                    index,
+                  ) => {
+                    return (
+                      <div
+                        className="row"
+                        key={id}
+                        onClick={() =>
+                          playTrack(
+                            id,
+                            name,
+                            artists,
+                            trackImage,
+                            // context_uri,
+                            preview_url,
+                            track_number,
+                            token,
+                            dispatch,
+                          )
+                        }
+                      >
+                        <div className="col">
+                          <span>{index + 1}</span>
+                        </div>
+                        <div className="col detail">
+                          <div className="image">
+                            <img src={album.images[2].url} alt="track" />
+                          </div>
+                          <div className="info">
+                            <span className="name">{name}</span>
+                            <span>{artists[0].name}</span>
+                          </div>
+                        </div>
+                        <div className="col">
+                          <span>{album.name}</span>
+                        </div>
+                        <div className="col">
+                          <span>{msToMinutesAndSeconds(duration_ms)}</span>
+                        </div>
+                      </div>
+                    );
                   },
-                  index,
-                ) => {
-                  return (
-                    <div
-                      className="row"
-                      key={id}
-                      onClick={() =>
-                        playTrack(
-                          id,
-                          name,
-                          artists,
-                          trackImage,
-                          context_uri,
-                          preview_url,
-                          track_number,
-                          token,
-                          dispatch,
-                        )
-                      }
-                    >
-                      <div className="col">
-                        <span>{index + 1}</span>
-                      </div>
-                      <div className="col detail">
-                        <div className="image">
-                          <img src={trackImage} alt="track" />
+                )}
+              </div>
+            ) : (
+              <div className="tracks">
+                {selectedPlaylist.tracks.map(
+                  (
+                    {
+                      id,
+                      name,
+                      artists,
+                      trackImage,
+                      duration,
+                      album,
+                      context_uri,
+                      preview_url,
+                      track_number,
+                    },
+                    index,
+                  ) => {
+                    return (
+                      <div
+                        className="row"
+                        key={id}
+                        onClick={() =>
+                          playTrack(
+                            id,
+                            name,
+                            artists,
+                            trackImage,
+                            context_uri,
+                            preview_url,
+                            track_number,
+                            token,
+                            dispatch,
+                          )
+                        }
+                      >
+                        <div className="col">
+                          <span>{index + 1}</span>
                         </div>
-                        <div className="info">
-                          <span className="name">{name}</span>
-                          <span>{artists}</span>
+                        <div className="col detail">
+                          <div className="image">
+                            <img src={trackImage} alt="track" />
+                          </div>
+                          <div className="info">
+                            <span className="name">{name}</span>
+                            <span>{artists}</span>
+                          </div>
+                        </div>
+                        <div className="col">
+                          <span>{album}</span>
+                        </div>
+                        <div className="col">
+                          <span>{msToMinutesAndSeconds(duration)}</span>
                         </div>
                       </div>
-                      <div className="col">
-                        <span>{album}</span>
-                      </div>
-                      <div className="col">
-                        <span>{msToMinutesAndSeconds(duration)}</span>
-                      </div>
-                    </div>
-                  );
-                },
-              )}
-            </div>
+                    );
+                  },
+                )}
+              </div>
+            )}
           </div>
         </>
       )}
