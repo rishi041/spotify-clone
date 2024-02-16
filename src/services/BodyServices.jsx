@@ -56,7 +56,7 @@ export const playTrack = async (
     trackImage,
     preview_url,
   };
-  console.log(currentPlaying, "currentPlaying");
+  
   dispatch({ type: reducerCases.SET_PLAYING, currentPlaying });
   dispatch({ type: reducerCases.SET_PLAYER_STATE, playerState: true });
   // const response = await axios.put(
