@@ -7,8 +7,7 @@ import { getSearchData } from "../services/SearchServices";
 
 // eslint-disable-next-line react/prop-types
 export default function Navbar({ navBackground }) {
-  const [{ token, searchPlaylist }, dispatch] = useStateProvider();
-  console.log(searchPlaylist, "searchPlaylist");
+  const [{ token }, dispatch] = useStateProvider();
 
   const [{ userInfo }] = useStateProvider();
   const [search, setSearch] = useState("");
@@ -46,24 +45,6 @@ export default function Navbar({ navBackground }) {
             placeholder="Artists, songs, or podcasts"
           />
         </div>
-        {/* {searchPlaylist.tracks && (
-          <div className="searchMusicInfo">
-            {searchPlaylist.tracks.items.map((obj) => (
-              <div className="musicList">
-                <div className="musicImage">
-                  <img src={obj?.album.images[2].url} />
-                </div>
-                <div className="musicTitle">
-                  <strong>{obj?.name}</strong>
-                  <div>{obj.artists[0].name}</div>
-                </div>
-                <div className="musicAlbum">
-                  <div>{obj.album.name}</div>
-                </div>
-              </div>
-            ))}
-          </div>
-        )} */}
       </div>
       <div className="avatar">
         <a href={userInfo?.userUrl}>
