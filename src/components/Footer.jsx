@@ -8,9 +8,12 @@ export default function Footer() {
   return (
     <Container>
       <MusicPlayer />
-      <AiFillGithub/>
-      <AiFillInstagram/>
-      <FaLinkedinIn/>
+      <div>
+        <AiFillGithub/>
+        <AiFillInstagram/>
+        <FaLinkedinIn/>
+      </div>
+      
     </Container>
   );
 }
