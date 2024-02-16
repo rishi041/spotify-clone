@@ -11,7 +11,7 @@ export default function Footer() {
       <div>
         <div>
         <div  className="footer-copywright">
-          <h3>Designed and Developed by Shubham Pawar</h3>
+          <h3>Designed and Developed by Rushikesh Ganorkar</h3>
         </div>
         <div  className="footer-copywright">
           <h3>Copyright © {year} SP</h3>
@@ -20,7 +20,7 @@ export default function Footer() {
           <ul className="footer-icons">
             <li className="social-icons">
               <a
-                href="https://github.com/shubhampawar7/"
+                href="https://github.com/rishi041/"
                 style={{ divor: "white" }}
                 target="_blank" 
                 rel="noopener noreferrer"
@@ -30,7 +30,7 @@ export default function Footer() {
             </li>
             <li className="social-icons">
               <a
-                href="https://www.linkedin.com/in/shubhampawar-/"
+                href="https://www.linkedin.com/in/rushikesh-ganorkar-rd/"
                 style={{ divor: "white" }}
                 target="_blank" 
                 rel="noopener noreferrer"
@@ -40,7 +40,7 @@ export default function Footer() {
             </li>
             <li className="social-icons">
               <a
-                href="https://www.instagram.com/shubhampawar__07/"
+                href="https://www.instagram.com/"
                 style={{ divor: "white" }}
                 target="_blank" 
                 rel="noopener noreferrer"
