@@ -235,6 +235,7 @@ const Container = styled.div`
         grid-template-columns: 0.3fr 3.1fr 2fr 0.1fr;
         &:hover {
           background-color: rgba(0, 0, 0, 0.7);
+          cursor: pointer;
         }
         .col {
           display: flex;
