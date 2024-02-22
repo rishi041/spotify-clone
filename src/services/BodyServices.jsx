@@ -30,7 +30,7 @@ export const getInitialPlaylist = async (
       trackImage: track.album.images[2].url,
       duration: track.duration_ms,
       album: track.album.name,
-      context_uri: track.album.uri,
+      context_uri: track.uri,
       preview_url: track.preview_url,
       track_number: track.track_number,
     })),
