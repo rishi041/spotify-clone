@@ -1,13 +1,21 @@
 import styled from "styled-components";
-// import Player from "./Player";
+import SpotifyPlayerPremium from "./SpotifyPlayerPremium";
 import MusicPlayer from "./MusicPlayer";
+import { useStateProvider } from "../utils/StateProvider";
 import { AiFillGithub, AiFillInstagram } from "react-icons/ai";
 import { FaLinkedinIn } from "react-icons/fa";
 
 export default function Footer() {
+  const [{ userInfo }] = useStateProvider();
+
   return (
     <Container>
-      <MusicPlayer />
+      {userInfo && userInfo?.product !== "premium" ? (
+        <MusicPlayer />
+      ) : (
+        <SpotifyPlayerPremium />
+      )}
+
       <div className="copyrightContainer">
         <div div className="footerCopywright">
           <div>Designed and Developed by Rushikesh Ganorkar</div>
