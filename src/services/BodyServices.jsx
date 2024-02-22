@@ -35,6 +35,7 @@ export const getInitialPlaylist = async (
       track_number: track.track_number,
     })),
   };
+  console.log(selectedPlaylist, "222selectedPlaylist");
   dispatch({ type: reducerCases.SET_PLAYLIST, selectedPlaylist });
 };
 
@@ -44,7 +45,7 @@ export const playTrack = async (
   artists,
   trackImage,
   preview_url,
-  // context_uri,
+  context_uri,
   // track_number,
   // token,
   dispatch,
@@ -55,8 +56,9 @@ export const playTrack = async (
     artists,
     trackImage,
     preview_url,
+    context_uri,
   };
-  
+
   dispatch({ type: reducerCases.SET_PLAYING, currentPlaying });
   dispatch({ type: reducerCases.SET_PLAYER_STATE, playerState: true });
   // const response = await axios.put(
