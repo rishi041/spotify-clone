@@ -67,6 +67,7 @@ const Container = styled.div`
     .body {
       height: 100%;
       width: 100%;
+      // width: 100vw;
       overflow: auto;
       &::-webkit-scrollbar {
         width: 0.7rem;

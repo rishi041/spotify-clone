@@ -10,10 +10,10 @@ export default function Footer() {
 
   return (
     <Container>
-      {userInfo && userInfo?.product !== "premium" ? (
-        <MusicPlayer />
-      ) : (
+      {userInfo && userInfo?.product !== "premium" ? (//
         <SpotifyPlayerPremium />
+      ) : (
+        <MusicPlayer />
       )}
 
       <div className="copyrightContainer">

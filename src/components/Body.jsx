@@ -4,14 +4,16 @@ import styled from "styled-components";
 import { useStateProvider } from "../utils/StateProvider";
 import { AiFillClockCircle } from "react-icons/ai";
 // import { reducerCases } from "../../utils/Constants";
-import { getInitialPlaylist, playTrack } from "../services/BodyServices";
+import { getInitialPlaylist, playTrack, playTrackRapid } from "../services/BodyServices";
 
 // eslint-disable-next-line react/prop-types
 export default function Body({ headerBackground }) {
   const [
-    { token, selectedPlaylist, selectedPlaylistId, searchPlaylist },
+    { token, selectedPlaylist, selectedPlaylistId, searchPlaylist, searchPlaylistRapid },
     dispatch,
   ] = useStateProvider();
+
+  console.log(searchPlaylistRapid, 'searchPlaylistRapid')
 
   useEffect(() => {
     getInitialPlaylist(token, dispatch, selectedPlaylistId);
@@ -28,20 +30,21 @@ export default function Body({ headerBackground }) {
         <>
           <div className="playlist">
             <div className="image">
-              {searchPlaylist.tracks ? (
+              {searchPlaylistRapid.tracks?.length > 0 ? (
                 <></>
               ) : (
+                
                 <img src={selectedPlaylist.image} alt="selected playlist" />
               )}
             </div>
             <div className="details">
-              {searchPlaylist.tracks ? (
+              {searchPlaylistRapid.tracks?.length > 0 ? (
                 <span className="type">Search Songs</span>
               ) : (
                 <>
                   <span className="type">PLAYLIST</span>
-                  <h1 className="title">{selectedPlaylist.name}</h1>
-                  <p className="description">{selectedPlaylist.description}</p>
+                  {/* <h1 className="title">{selectedPlaylist.name}</h1> */}
+                  {/* <p className="description">{selectedPlaylist.description}</p> */}
                 </>
               )}
             </div>
@@ -63,21 +66,22 @@ export default function Body({ headerBackground }) {
                 </span>
               </div>
             </div>
-            {searchPlaylist.tracks ? (
+            {searchPlaylistRapid.tracks?.length > 0 ? (
               <div className="tracks">
-                {searchPlaylist.tracks.items.map(
+                {searchPlaylistRapid.tracks.map(
                   (
                     {
-                      id,
-                      name,
-                      artists,
+                      data,
+                      id = data.id,
+                      name = data.name,
+                      artists = data.artists,
                       trackImage,
                       preview_url,
                       context_uri,
-                      album,
-                      uri,
+                      album = data.albumOfTrack,
+                      uri = data.uri,
                       // track_number,
-                      duration_ms,
+                      duration_ms = data.duration.totalMilliseconds,
                     },
                     index,
                   ) => {
@@ -86,12 +90,12 @@ export default function Body({ headerBackground }) {
                         className="row"
                         key={id}
                         onClick={() =>
-                          playTrack(
+                          playTrackRapid(
                             id,
                             name,
-                            (artists = [`${artists[0].name}`, ""]),
-                            (trackImage = album.images[2].url),
-                            (preview_url = preview_url),
+                            (artists = [`${artists.items[0].profile.name}`, ""]),
+                            (trackImage = album.coverArt.sources[1].url),
+                            // (preview_url = null),
                             (context_uri = uri),
                             // track_number,
                             // token,
@@ -104,11 +108,11 @@ export default function Body({ headerBackground }) {
                         </div>
                         <div className="col detail">
                           <div className="image">
-                            <img src={album.images[2].url} alt="track" />
+                            <img src={album.coverArt.sources[1].url} alt="track" />
                           </div>
                           <div className="info">
                             <span className="name">{name}</span>
-                            <span>{artists[0].name}</span>
+                            <span>{artists.items[0].profile.name}</span>
                           </div>
                         </div>
                         <div className="col">
@@ -123,7 +127,16 @@ export default function Body({ headerBackground }) {
                 )}
               </div>
             ) : (
-              <div className="tracks">
+              <></>
+            )}
+          </div>
+        </>
+      )}
+    </Container>
+  );
+}
+
+{/* <div className="tracks">
                 {selectedPlaylist.tracks.map(
                   (
                     {
@@ -179,14 +192,7 @@ export default function Body({ headerBackground }) {
                     );
                   },
                 )}
-              </div>
-            )}
-          </div>
-        </>
-      )}
-    </Container>
-  );
-}
+              </div> */}
 
 const Container = styled.div`
   .playlist {
@@ -222,7 +228,7 @@ const Container = styled.div`
       padding: 1rem 3rem;
       transition: 0.3s ease-in-out;
       background-color: ${({ headerBackground }) =>
-        headerBackground ? "#000000dc" : "none"};
+    headerBackground ? "#000000dc" : "none"};
     }
     .tracks {
       margin: 0 2rem;

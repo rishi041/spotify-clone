@@ -87,7 +87,7 @@ export default function MusicPlayer() {
   if (!token) return null;
   return (
     <Container>
-      <audio ref={songRef} src={data?.preview_url} />
+      <audio controls ref={songRef} src={data?.preview_url} />
       <div className="musicContainer">
         <div className="musicInfo">
           <div className="musicTitle">

@@ -58,7 +58,7 @@ export const playTrack = async (
     preview_url,
     context_uri,
   };
-
+  console.log(currentPlaying, "currentPlaying")
   dispatch({ type: reducerCases.SET_PLAYING, currentPlaying });
   dispatch({ type: reducerCases.SET_PLAYER_STATE, playerState: true });
   // const response = await axios.put(
@@ -82,4 +82,47 @@ export const playTrack = async (
   // } else {
   //   dispatch({ type: reducerCases.SET_PLAYER_STATE, playerState: true });
   // }
+};
+
+export const playTrackRapid = async (
+  id,
+  name,
+  artists,
+  trackImage,
+  // preview_url,
+  context_uri,
+  // track_number,
+  // token,
+  dispatch,
+) => {
+
+  const url = `https://spotify81.p.rapidapi.com/tracks`;
+
+  const response = await axios.get(
+    url, {
+    params: {
+      ids: id
+    },
+    headers: {
+      'X-RapidAPI-Key': 'e49cd1581dmshcfad5d553319a2bp152436jsn04b1c2d2b5fd',
+      'X-RapidAPI-Host': 'spotify81.p.rapidapi.com'
+    }
+  }
+  );
+  if (response.status === 200) {
+    const currentPlaying = {
+      id,
+      name,
+      artists,
+      trackImage,
+      preview_url: response.data.tracks[0].preview_url,
+      context_uri,
+    };
+    console.log(currentPlaying, "currentPlaying")
+    // console.log(response.data[0].url, "response.dataQQQ")
+    dispatch({ type: reducerCases.SET_PLAYING, currentPlaying });
+    dispatch({ type: reducerCases.SET_PLAYER_STATE, playerState: true });
+  } else {
+    dispatch({ type: reducerCases.SET_PLAYER_STATE, playerState: true });
+  }
 };

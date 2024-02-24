@@ -9,8 +9,9 @@ export const initialState = {
   selectedPlaylist: null,
   selectedPlaylistId: "37i9dQZF1DWXtlo6ENS92N",
   searchPlaylist: [],
+  searchPlaylistRapid: [],
 };
-
+console.log(initialState, 'initialState')
 const reducer = (state, action) => {
   switch (action.type) {
     case reducerCases.SET_TOKEN:
@@ -52,6 +53,11 @@ const reducer = (state, action) => {
       return {
         ...state,
         searchPlaylist: action.searchPlaylist,
+      };
+    case reducerCases.SET_SEARCH_RAPID:
+      return {
+        ...state,
+        searchPlaylistRapid: action.searchPlaylistRapid,
       };
     default:
       return state;
