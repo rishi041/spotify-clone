@@ -1,5 +1,7 @@
 import axios from "axios";
 import { reducerCases } from "../utils/Constants";
+const X_RapidAPI_Key = import.meta.env.VITE_X_RAPID_API_KEY;
+const X_RapidAPI_Host = import.meta.env.VITE_X_RAPID_API_HOST;
 
 export const getPlaylistDataRapid = async (dispatch) => {
   const response = await axios.get(
@@ -11,8 +13,8 @@ export const getPlaylistDataRapid = async (dispatch) => {
         limit: "100",
       },
       headers: {
-        "X-RapidAPI-Key": "e49cd1581dmshcfad5d553319a2bp152436jsn04b1c2d2b5fd",
-        "X-RapidAPI-Host": "spotify81.p.rapidapi.com",
+        "X-RapidAPI-Key": X_RapidAPI_Key,
+        "X-RapidAPI-Host": X_RapidAPI_Host,
       },
     },
   );

@@ -1,7 +1,11 @@
 import axios from "axios";
 import { reducerCases } from "../utils/Constants";
+const X_RapidAPI_Key = import.meta.env.VITE_X_RAPID_API_KEY;
+const X_RapidAPI_Host = import.meta.env.VITE_X_RAPID_API_HOST;
 
 export const getInitialPlaylistRapid = async (dispatch, selectedPlaylistId) => {
+  console.log(`${X_RapidAPI_Key}`, X_RapidAPI_Host, "qqq");
+
   const response = await axios.get(
     `https://spotify81.p.rapidapi.com/playlist`,
     {
@@ -9,8 +13,8 @@ export const getInitialPlaylistRapid = async (dispatch, selectedPlaylistId) => {
         id: selectedPlaylistId,
       },
       headers: {
-        "X-RapidAPI-Key": "e49cd1581dmshcfad5d553319a2bp152436jsn04b1c2d2b5fd",
-        "X-RapidAPI-Host": "spotify81.p.rapidapi.com",
+        "X-RapidAPI-Key": X_RapidAPI_Key,
+        "X-RapidAPI-Host": X_RapidAPI_Host,
       },
     },
   );
@@ -57,8 +61,8 @@ export const playTrackRapid = async (
       ids: id,
     },
     headers: {
-      "X-RapidAPI-Key": "e49cd1581dmshcfad5d553319a2bp152436jsn04b1c2d2b5fd",
-      "X-RapidAPI-Host": "spotify81.p.rapidapi.com",
+      "X-RapidAPI-Key": X_RapidAPI_Key,
+      "X-RapidAPI-Host": X_RapidAPI_Host,
     },
   });
   if (response.status === 200) {
