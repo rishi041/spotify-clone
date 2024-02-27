@@ -3,12 +3,11 @@ import { useStateProvider } from "../utils/StateProvider";
 import { FaSearch } from "react-icons/fa";
 import { CgProfile } from "react-icons/cg";
 import { useState, useEffect, useCallback } from "react";
-import { getSearchData, getSearchRapidData } from "../services/SearchServices";
+import { getSearchRapidData } from "../services/SearchServices";
 
 // eslint-disable-next-line react/prop-types
 export default function Navbar({ navBackground }) {
-  const [{ token }, dispatch] = useStateProvider();
-  const [{ userInfo }] = useStateProvider();
+  const [{ userInfoRapid }, dispatch] = useStateProvider();
   const [search, setSearch] = useState("");
 
   const useDebounce = (effect, dependencies, delay) => {
@@ -23,7 +22,7 @@ export default function Navbar({ navBackground }) {
   useDebounce(
     () => {
       // getSearchData(token, dispatch, search);
-      getSearchRapidData(dispatch, search)
+      getSearchRapidData(dispatch, search);
     },
     [search, dispatch],
     800,
@@ -47,9 +46,9 @@ export default function Navbar({ navBackground }) {
         </div>
       </div>
       <div className="avatar">
-        <a href={userInfo?.userUrl}>
+        <a href={userInfoRapid?.userUrl}>
           <CgProfile />
-          <span>{userInfo?.name}</span>
+          <span>{userInfoRapid?.name}</span>
         </a>
       </div>
     </Container>

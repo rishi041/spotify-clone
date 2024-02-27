@@ -6,7 +6,7 @@ import PauseIcon from "../assets/pause.png";
 import { useStateProvider } from "../utils/StateProvider";
 
 export default function MusicPlayer() {
-  const [{ token, selectedPlaylist, currentPlaying }] = useStateProvider();
+  const [{ selectedPlaylistRapid, currentPlaying }] = useStateProvider();
   const [isPlaying, setIsPlaying] = useState(false);
   const songRef = useRef();
   const progressRef = useRef();
@@ -16,15 +16,15 @@ export default function MusicPlayer() {
     end: 30,
   });
 
-  const [data, setData] = useState(selectedPlaylist);
+  const [data, setData] = useState(selectedPlaylistRapid);
 
   useEffect(() => {
     if (currentPlaying) {
       setData(currentPlaying);
     } else {
-      setData(selectedPlaylist);
+      setData(selectedPlaylistRapid);
     }
-  }, [currentPlaying, selectedPlaylist]);
+  }, [currentPlaying, selectedPlaylistRapid]);
 
   useEffect(() => {
     songRef.current.play();
@@ -84,10 +84,10 @@ export default function MusicPlayer() {
     songRef.current.currentTime = newValue;
     progressRef.current.value = newValue;
   };
-  if (!token) return null;
+
   return (
     <Container>
-      <audio controls ref={songRef} src={data?.preview_url} />
+      <audio ref={songRef} src={data?.preview_url} />
       <div className="musicContainer">
         <div className="musicInfo">
           <div className="musicTitle">

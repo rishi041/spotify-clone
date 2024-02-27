@@ -2,14 +2,14 @@ import { useEffect } from "react";
 import styled from "styled-components";
 import { reducerCases } from "../utils/Constants";
 import { useStateProvider } from "../utils/StateProvider";
-import { getPlaylistData } from "../services/PlaylistsServices";
+import { getPlaylistDataRapid } from "../services/PlaylistsServices";
 
 export default function Playlists() {
-  const [{ token, playlists }, dispatch] = useStateProvider();
+  const [{ userInfoRapid }, dispatch] = useStateProvider();
 
   useEffect(() => {
-    getPlaylistData(token, dispatch);
-  }, [token, dispatch]);
+    getPlaylistDataRapid(dispatch);
+  }, [dispatch]);
 
   const changeCurrentPlaylist = (selectedPlaylistId) => {
     dispatch({ type: reducerCases.SET_PLAYLIST_ID, selectedPlaylistId });
@@ -20,13 +20,19 @@ export default function Playlists() {
     <Container>
       <strong className="my-lib">Your Playlist</strong>
       <ul>
-        {playlists.map(({ name, id }) => {
-          return (
-            <li key={id} onClick={() => changeCurrentPlaylist(id)}>
-              {name}
-            </li>
-          );
-        })}
+        {userInfoRapid?.public_playlists &&
+          userInfoRapid?.public_playlists.map(({ name, uri }, index) => {
+            const playlistString = uri;
+            const playlistID = playlistString.match(
+              /spotify:playlist:(\w+)/,
+            )[1];
+
+            return (
+              <li key={index} onClick={() => changeCurrentPlaylist(playlistID)}>
+                {name}
+              </li>
+            );
+          })}
       </ul>
     </Container>
   );

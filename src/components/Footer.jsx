@@ -1,20 +1,19 @@
 import styled from "styled-components";
-import SpotifyPlayerPremium from "./SpotifyPlayerPremium";
+// import SpotifyPlayerPremium from "./SpotifyPlayerPremium";
 import MusicPlayer from "./MusicPlayer";
 import { useStateProvider } from "../utils/StateProvider";
 import { AiFillGithub, AiFillInstagram } from "react-icons/ai";
 import { FaLinkedinIn } from "react-icons/fa";
 
 export default function Footer() {
-  const [{ userInfo }] = useStateProvider();
+  // const [{ userInfo }] = useStateProvider();
 
   return (
     <Container>
-      {userInfo && userInfo?.product !== "premium" ? (//
+      {/* {userInfo && userInfo?.product !== "premium" ? (//
         <SpotifyPlayerPremium />
-      ) : (
-        <MusicPlayer />
-      )}
+      ) : ()} */}
+      <MusicPlayer />
 
       <div className="copyrightContainer">
         <div div className="footerCopywright">

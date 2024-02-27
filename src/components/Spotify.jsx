@@ -5,10 +5,11 @@ import Footer from "./Footer";
 import Navbar from "./Navbar";
 import { useStateProvider } from "../utils/StateProvider";
 import Body from "./Body";
-import { getUserInfo, getPlaybackState } from "../services/SpotifyServices";
+import { getUserInfoRapid } from "../services/SpotifyServices";
 
 export default function Spotify() {
-  const [{ token }, dispatch] = useStateProvider();
+  const [{}, dispatch] = useStateProvider();
+
   const [navBackground, setNavBackground] = useState(false);
   const [headerBackground, setHeaderBackground] = useState(false);
   const bodyRef = useRef();
@@ -21,17 +22,18 @@ export default function Spotify() {
       : setHeaderBackground(false);
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     // window.history.pushState({}, '', '/');
-  },[])
+  }, []);
 
   useEffect(() => {
-    getUserInfo(dispatch, token);
-  }, [dispatch, token]);
+    // getUserInfo(dispatch, token);
+    getUserInfoRapid(dispatch);
+  }, [dispatch]);
 
-  useEffect(() => {
-    getPlaybackState(dispatch, token);
-  }, [dispatch, token]);
+  // useEffect(() => {
+  //   getPlaybackState(dispatch, token);
+  // }, [dispatch, token]);
 
   return (
     <Container>

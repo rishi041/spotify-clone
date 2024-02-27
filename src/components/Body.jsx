@@ -4,20 +4,23 @@ import styled from "styled-components";
 import { useStateProvider } from "../utils/StateProvider";
 import { AiFillClockCircle } from "react-icons/ai";
 // import { reducerCases } from "../../utils/Constants";
-import { getInitialPlaylist, playTrack, playTrackRapid } from "../services/BodyServices";
+import {
+  getInitialPlaylistRapid,
+  playTrackRapid,
+} from "../services/BodyServices";
 
 // eslint-disable-next-line react/prop-types
 export default function Body({ headerBackground }) {
   const [
-    { token, selectedPlaylist, selectedPlaylistId, searchPlaylist, searchPlaylistRapid },
+    { selectedPlaylistRapid, selectedPlaylistId, searchPlaylistRapid },
     dispatch,
   ] = useStateProvider();
 
-  console.log(searchPlaylistRapid, 'searchPlaylistRapid')
+  
 
   useEffect(() => {
-    getInitialPlaylist(token, dispatch, selectedPlaylistId);
-  }, [token, dispatch, selectedPlaylistId]);
+    getInitialPlaylistRapid(dispatch, selectedPlaylistId);
+  }, [dispatch, selectedPlaylistId]);
 
   const msToMinutesAndSeconds = (ms) => {
     var minutes = Math.floor(ms / 60000);
@@ -26,15 +29,17 @@ export default function Body({ headerBackground }) {
   };
   return (
     <Container headerBackground={headerBackground}>
-      {selectedPlaylist && (
+      {selectedPlaylistRapid && (
         <>
           <div className="playlist">
             <div className="image">
               {searchPlaylistRapid.tracks?.length > 0 ? (
                 <></>
               ) : (
-                
-                <img src={selectedPlaylist.image} alt="selected playlist" />
+                <img
+                  src={selectedPlaylistRapid.image}
+                  alt="selected playlist"
+                />
               )}
             </div>
             <div className="details">
@@ -43,8 +48,10 @@ export default function Body({ headerBackground }) {
               ) : (
                 <>
                   <span className="type">PLAYLIST</span>
-                  {/* <h1 className="title">{selectedPlaylist.name}</h1> */}
-                  {/* <p className="description">{selectedPlaylist.description}</p> */}
+                  <h1 className="title">{selectedPlaylistRapid.name}</h1>
+                  <p className="description">
+                    {selectedPlaylistRapid.description}
+                  </p>
                 </>
               )}
             </div>
@@ -91,15 +98,18 @@ export default function Body({ headerBackground }) {
                         key={id}
                         onClick={() =>
                           playTrackRapid(
+                            dispatch,
                             id,
                             name,
-                            (artists = [`${artists.items[0].profile.name}`, ""]),
+                            (artists = [
+                              `${artists.items[0].profile.name}`,
+                              "",
+                            ]),
                             (trackImage = album.coverArt.sources[1].url),
                             // (preview_url = null),
                             (context_uri = uri),
                             // track_number,
                             // token,
-                            dispatch,
                           )
                         }
                       >
@@ -108,7 +118,10 @@ export default function Body({ headerBackground }) {
                         </div>
                         <div className="col detail">
                           <div className="image">
-                            <img src={album.coverArt.sources[1].url} alt="track" />
+                            <img
+                              src={album.coverArt.sources[1].url}
+                              alt="track"
+                            />
                           </div>
                           <div className="info">
                             <span className="name">{name}</span>
@@ -127,17 +140,8 @@ export default function Body({ headerBackground }) {
                 )}
               </div>
             ) : (
-              <></>
-            )}
-          </div>
-        </>
-      )}
-    </Container>
-  );
-}
-
-{/* <div className="tracks">
-                {selectedPlaylist.tracks.map(
+              <div className="tracks">
+                {selectedPlaylistRapid.tracks.map(
                   (
                     {
                       id,
@@ -157,7 +161,8 @@ export default function Body({ headerBackground }) {
                         className="row"
                         key={id}
                         onClick={() =>
-                          playTrack(
+                          playTrackRapid(
+                            dispatch,
                             id,
                             name,
                             artists,
@@ -165,8 +170,7 @@ export default function Body({ headerBackground }) {
                             preview_url,
                             context_uri,
                             // track_number,
-                            // token,
-                            dispatch,
+                            // token, 
                           )
                         }
                       >
@@ -192,7 +196,14 @@ export default function Body({ headerBackground }) {
                     );
                   },
                 )}
-              </div> */}
+              </div>
+            )}
+          </div>
+        </>
+      )}
+    </Container>
+  );
+}
 
 const Container = styled.div`
   .playlist {
@@ -228,7 +239,7 @@ const Container = styled.div`
       padding: 1rem 3rem;
       transition: 0.3s ease-in-out;
       background-color: ${({ headerBackground }) =>
-    headerBackground ? "#000000dc" : "none"};
+        headerBackground ? "#000000dc" : "none"};
     }
     .tracks {
       margin: 0 2rem;
