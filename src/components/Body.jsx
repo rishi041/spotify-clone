@@ -16,8 +16,6 @@ export default function Body({ headerBackground }) {
     dispatch,
   ] = useStateProvider();
 
-  
-
   useEffect(() => {
     getInitialPlaylistRapid(dispatch, selectedPlaylistId);
   }, [dispatch, selectedPlaylistId]);
@@ -170,7 +168,7 @@ export default function Body({ headerBackground }) {
                             preview_url,
                             context_uri,
                             // track_number,
-                            // token, 
+                            // token,
                           )
                         }
                       >

@@ -2,7 +2,6 @@ import { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 import PlayIcon from "../assets/play.png";
 import PauseIcon from "../assets/pause.png";
-// import "./musicPlayer.css";
 import { useStateProvider } from "../utils/StateProvider";
 
 export default function MusicPlayer() {
