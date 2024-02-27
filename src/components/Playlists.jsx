@@ -11,8 +11,6 @@ export default function Playlists() {
     getPlaylistDataRapid(dispatch);
   }, [dispatch]);
 
-  console.log(reducerCases.SET_SEARCH_RAPID, "reducerCases.SET_SEARCH_RAPID");
-
   const changeCurrentPlaylist = (selectedPlaylistId) => {
     dispatch({ type: reducerCases.SET_PLAYLIST_ID, selectedPlaylistId });
     dispatch({ type: reducerCases.SET_SEARCH_RAPID, searchPlaylistRapid: [] });
