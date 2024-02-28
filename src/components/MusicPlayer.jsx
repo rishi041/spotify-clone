@@ -3,17 +3,19 @@ import styled from "styled-components";
 import PlayIcon from "../assets/play.png";
 import PauseIcon from "../assets/pause.png";
 import { useStateProvider } from "../utils/StateProvider";
+import AudioPlayer, { RHAP_UI } from "react-h5-audio-player";
+import "react-h5-audio-player/lib/styles.css";
 
 export default function MusicPlayer() {
   const [{ selectedPlaylistRapid, currentPlaying }] = useStateProvider();
   const [isPlaying, setIsPlaying] = useState(false);
-  const songRef = useRef();
-  const progressRef = useRef();
-  const ctrlRef = useRef();
-  const [currentTimeDuration, setCurrentTimeDuration] = useState({
-    start: 0,
-    end: 30,
-  });
+  // const songRef = useRef();
+  // const progressRef = useRef();
+  // const ctrlRef = useRef();
+  // const [currentTimeDuration, setCurrentTimeDuration] = useState({
+  //   start: 0,
+  //   end: 30,
+  // });
 
   const [data, setData] = useState(selectedPlaylistRapid);
 
@@ -25,68 +27,69 @@ export default function MusicPlayer() {
     }
   }, [currentPlaying, selectedPlaylistRapid]);
 
-  useEffect(() => {
-    songRef.current.play();
-    setIsPlaying(true);
-  }, [data]);
+  // useEffect(() => {
+  //   songRef.current.play();
+  //   setIsPlaying(true);
+  // }, [data]);
 
-  const playPauseFunc = () => {
-    if (isPlaying) {
-      songRef.current.pause();
-    } else {
-      songRef.current.play();
-    }
-    setIsPlaying(!isPlaying);
-  };
+  // const playPauseFunc = () => {
+  //   if (isPlaying) {
+  //     songRef.current.pause();
+  //   } else {
+  //     songRef.current.play();
+  //   }
+  //   setIsPlaying(!isPlaying);
+  // };
 
-  useEffect(() => {
-    const updateProgress = () => {
-      const currentTime = songRef.current.currentTime;
-      const duration = songRef.current.duration;
+  // useEffect(() => {
+  //   const updateProgress = () => {
+  //     const currentTime = songRef.current.currentTime;
+  //     const duration = songRef.current.duration;
 
-      setCurrentTimeDuration({
-        start: currentTime,
-        end: duration,
-      });
+  //     setCurrentTimeDuration({
+  //       start: currentTime,
+  //       end: duration,
+  //     });
 
-      // Update progress bar
-      progressRef.current.value = currentTime;
-      progressRef.current.max = duration;
+  //     // Update progress bar
+  //     progressRef.current.value = currentTime;
+  //     progressRef.current.max = duration;
 
-      // Check if progress bar has reached the end
-      if (currentTime === duration) {
-        setIsPlaying(false);
-      }
-    };
+  //     // Check if progress bar has reached the end
+  //     if (currentTime === duration) {
+  //       setIsPlaying(false);
+  //     }
+  //   };
 
-    songRef.current.addEventListener("timeupdate", updateProgress);
+  //   songRef.current.addEventListener("timeupdate", updateProgress);
 
-    return () => {
-      songRef.current.removeEventListener("timeupdate", updateProgress);
-    };
-  }, []);
+  //   return () => {
+  //     songRef.current.removeEventListener("timeupdate", updateProgress);
+  //   };
+  // }, []);
 
-  useEffect(() => {
-    const updateControlButton = () => {
-      ctrlRef.current = isPlaying ? (
-        <img className="pausePlayIcons" src={PauseIcon} alt="pauseicon" />
-      ) : (
-        <img className="pausePlayIcons" src={PlayIcon} alt="playicon" />
-      );
-    };
+  // useEffect(() => {
+  //   const updateControlButton = () => {
+  //     ctrlRef.current = isPlaying ? (
+  //       <img className="pausePlayIcons" src={PauseIcon} alt="pauseicon" />
+  //     ) : (
+  //       <img className="pausePlayIcons" src={PlayIcon} alt="playicon" />
+  //     );
+  //   };
 
-    updateControlButton();
-  }, [isPlaying]);
+  //   updateControlButton();
+  // }, [isPlaying]);
 
-  const handleProgressBarChange = (e) => {
-    const newValue = e.target.value;
-    songRef.current.currentTime = newValue;
-    progressRef.current.value = newValue;
-  };
+  // const handleProgressBarChange = (e) => {
+  //   const newValue = e.target.value;
+  //   songRef.current.currentTime = newValue;
+  //   progressRef.current.value = newValue;
+  // };
 
   return (
     <Container>
-      <audio ref={songRef} src={data?.preview_url} />
+      <PlayerApp data={data} />
+      {/* <audio ref={songRef} src={data?.preview_url} />
       <div className="musicContainer">
         <div className="musicInfo">
           <div className="musicTitle">
@@ -142,10 +145,48 @@ export default function MusicPlayer() {
           </div>
           <div className="soundControls"></div>
         </div>
-      </div>
+      </div> */}
     </Container>
   );
 }
+
+const PlayerApp = ({ data }) => {
+  const playlist = [
+    { src: data?.preview_url, name: data?.name },
+    // { src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3" },
+    // { src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3" },
+  ];
+  const [currentTrack, setTrackIndex] = useState(0);
+
+  const handleClickNext = () => {
+    console.log("click next");
+    setTrackIndex((currentTrack) =>
+      currentTrack < playlist.length - 1 ? currentTrack + 1 : 0,
+    );
+  };
+
+  const handleEnd = () => {
+    console.log("end");
+    setTrackIndex((currentTrack) =>
+      currentTrack < playlist.length - 1 ? currentTrack + 1 : 0,
+    );
+  };
+
+  return (
+    <div className="container">
+      <AudioPlayer
+        src={playlist[currentTrack].src}
+        customControlsSection={[
+          <div>{playlist[currentTrack].name} </div>,
+          RHAP_UI.ADDITIONAL_CONTROLS,
+          RHAP_UI.MAIN_CONTROLS,
+          RHAP_UI.VOLUME_CONTROLS,
+        ]}
+        layout="stacked-reverse horizontal"
+      />
+    </div>
+  );
+};
 
 const Container = styled.div`
   .musicContainer {
@@ -212,5 +253,28 @@ const Container = styled.div`
         transition: all 0.3s ease;
       }
     }
+  }
+
+  .rhap_button,
+  .rhap_volume-indicator,
+  .rhap_progress-indicator {
+    background-color: var(--rhap-theme-color);
+  }
+
+  .rhap_main,
+  .rhap_container {
+    background-color: var(--rhap-background-color);
+  }
+
+  .rhap_progress-filled {
+    background-color: var(--rhap-bar-color);
+  }
+
+  .rhap_main-controls-button,
+  .rhap_time,
+  .rhap_button-clear,
+  .rhap_controls-section {
+    color: var(--rhap-bar-color);
+    font-family: var(--rhap-font-family);
   }
 `;

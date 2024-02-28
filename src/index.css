@@ -4,6 +4,11 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  --rhap-theme-color: rgb(255, 255, 255);
+  --rhap-background-color: black;
+  --rhap-bar-color: #ffffff;
+  --rhap-time-color: #333;
+  --rhap-font-family: sans-serif;
 }
 
 * {
