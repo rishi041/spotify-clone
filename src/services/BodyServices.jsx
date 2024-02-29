@@ -14,7 +14,7 @@ export const getInitialPlaylistRapid = async (dispatch, selectedPlaylistId) => {
         "X-RapidAPI-Key": X_RapidAPI_Key,
         "X-RapidAPI-Host": X_RapidAPI_Host,
       },
-    },
+    }
   );
   const selectedPlaylistRapid = {
     id: response.data.id,
@@ -29,6 +29,7 @@ export const getInitialPlaylistRapid = async (dispatch, selectedPlaylistId) => {
       id: track.id,
       name: track.name,
       artists: track.artists.map((artist) => artist.name),
+      trackImageHome: track.album.images[1].url,
       trackImage: track.album.images[2].url,
       duration: track.duration_ms,
       album: track.album.name,
@@ -48,7 +49,7 @@ export const playTrackRapid = async (
   artists,
   trackImage,
   // preview_url,
-  context_uri,
+  context_uri
   // track_number,
   // token,
 ) => {
