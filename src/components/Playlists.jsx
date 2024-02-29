@@ -3,9 +3,13 @@ import styled from "styled-components";
 import { reducerCases } from "../utils/Constants";
 import { useStateProvider } from "../utils/StateProvider";
 import { getPlaylistDataRapid } from "../services/PlaylistsServices";
+import { useNavigate } from "react-router-dom";
+import { GoHomeFill } from "react-icons/go";
+import { BiLibrary } from "react-icons/bi";
 
 export default function Playlists() {
   const [{ userInfoRapid }, dispatch] = useStateProvider();
+  const navigate = useNavigate();
 
   useEffect(() => {
     getPlaylistDataRapid(dispatch);
@@ -18,13 +22,43 @@ export default function Playlists() {
 
   return (
     <Container>
-      <strong className="my-lib">Your Playlist</strong>
+      <div className="sideBarTextContainer">
+        <div className="sideBarText">
+          <div className="sideBarIcon">
+            <GoHomeFill />
+          </div>
+          <div>
+            <strong
+              onClick={() => {
+                navigate("/");
+              }}
+            >
+              Home
+            </strong>
+          </div>
+        </div>
+        <div className="sideBarText">
+          <div className="sideBarIcon">
+            <BiLibrary />
+          </div>
+          <div>
+            <strong
+              onClick={() => {
+                navigate("/playlists");
+              }}
+            >
+              Your Playlist
+            </strong>
+          </div>
+        </div>
+      </div>
+
       <ul>
         {userInfoRapid?.public_playlists &&
           userInfoRapid?.public_playlists.map(({ name, uri }, index) => {
             const playlistString = uri;
             const playlistID = playlistString.match(
-              /spotify:playlist:(\w+)/,
+              /spotify:playlist:(\w+)/
             )[1];
 
             return (
@@ -42,9 +76,25 @@ const Container = styled.div`
   color: #b3b3b3;
   height: 100%;
   overflow: hidden;
-  .my-lib {
-    padding: 0.5rem;
-    font-size: 1rem;
+  .sideBarTextContainer {
+    .sideBarText {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      font-size: 1rem;
+      padding: 0.4rem 0.4rem 0 0.5rem;
+      .sideBarIcon {
+        font-size: 1.5rem;
+        padding: 0 0.3rem 0 0;
+      }
+    }
+    .sideBarText {
+      transition: 0.3s ease-in-out;
+      cursor: pointer;
+      &:hover {
+        color: white;
+      }
+    }
   }
   ul {
     list-style-type: none;
