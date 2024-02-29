@@ -1,11 +1,13 @@
 import { useEffect, useRef, useState } from "react";
-import Sidebar from "./Sidebar";
+import { getUserInfoRapid } from "../services/SpotifyServices";
+import { useStateProvider } from "../utils/StateProvider";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import styled from "styled-components";
+import Sidebar from "./Sidebar";
 import Footer from "./Footer";
 import Navbar from "./Navbar";
-import { useStateProvider } from "../utils/StateProvider";
 import Body from "./Body";
-import { getUserInfoRapid } from "../services/SpotifyServices";
+import Home from "./Home";
 
 export default function Spotify() {
   const [{}, dispatch] = useStateProvider();
@@ -37,15 +39,27 @@ export default function Spotify() {
 
   return (
     <Container>
-      <div className="spotify__body">
-        <Sidebar />
-        <div className="body" ref={bodyRef} onScroll={bodyScrolled}>
-          <Navbar navBackground={navBackground} />
-          <div className="body__contents">
-            <Body headerBackground={headerBackground} />
+      <BrowserRouter>
+        <div className="spotify__body">
+          <Sidebar />
+          <div className="body" ref={bodyRef} onScroll={bodyScrolled}>
+            <Navbar navBackground={navBackground} />
+            <div className="body__contents">
+              <Routes>
+                <Route
+                  path="/"
+                  element={<Home headerBackground={headerBackground} />}
+                />
+                <Route
+                  path="/playlists"
+                  element={<Body headerBackground={headerBackground} />}
+                />
+              </Routes>
+            </div>
           </div>
         </div>
-      </div>
+      </BrowserRouter>
+
       <div className="spotify__footer">
         <Footer />
       </div>
