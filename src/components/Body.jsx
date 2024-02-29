@@ -16,6 +16,7 @@ export default function Body({ headerBackground }) {
     dispatch,
   ] = useStateProvider();
 
+
   useEffect(() => {
     getInitialPlaylistRapid(dispatch, selectedPlaylistId);
   }, [dispatch, selectedPlaylistId]);
@@ -237,7 +238,7 @@ const Container = styled.div`
       padding: 1rem 3rem;
       transition: 0.3s ease-in-out;
       background-color: ${({ headerBackground }) =>
-        headerBackground ? "#000000dc" : "none"};
+    headerBackground ? "#000000dc" : "none"};
     }
     .tracks {
       margin: 0 2rem;

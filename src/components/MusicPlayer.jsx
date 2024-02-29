@@ -153,7 +153,7 @@ export default function MusicPlayer() {
 const PlayerApp = ({ data }) => {
   const [{ selectedPlaylistRapid, currentPlaying }] = useStateProvider();
   const playlist = [
-    { src: data?.preview_url, name: data?.name, image: data?.trackImage },
+    { src: data?.preview_url, name: data?.name, image: data?.trackImage, artists: data?.artists },
     // { src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3" },
     // { src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3" },
   ];
@@ -180,9 +180,15 @@ const PlayerApp = ({ data }) => {
           <div className="musicTitle">
             <img src={playlist[currentTrack].image} />
             {currentPlaying ? (
-              <div className="musicName">{playlist[currentTrack].name} </div>
+              <div>
+                <div className="musicName"><strong>{playlist[currentTrack].name}</strong> </div>
+                {playlist[currentTrack].artists && <div className="musicName">by {playlist[currentTrack].artists}</div>}
+              </div>
             ) : (
-              <div className="musicName">{data?.tracks[0].name} </div>
+              <div>
+                <div className="musicName"><strong>{data?.tracks[0].name}</strong> </div>
+                {data?.tracks[0].artists && <div className="musicName">by {data?.tracks[0].artists}</div>}
+              </div>
             )}
           </div>
           <div className="musicControls">

@@ -3,7 +3,7 @@ import { reducerCases } from "../utils/Constants";
 const X_RapidAPI_Key = import.meta.env.VITE_X_RAPID_API_KEY;
 const X_RapidAPI_Host = import.meta.env.VITE_X_RAPID_API_HOST;
 
-export const getInitialPlaylistRapid = async (dispatch, selectedPlaylistId) => {
+export const getInitialPlaylistRapid = async (dispatch, selectedPlaylistId,) => {
   const response = await axios.get(
     `https://spotify81.p.rapidapi.com/playlist`,
     {

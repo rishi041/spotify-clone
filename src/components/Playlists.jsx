@@ -16,6 +16,7 @@ export default function Playlists() {
   }, [dispatch]);
 
   const changeCurrentPlaylist = (selectedPlaylistId) => {
+    navigate("/playlists");
     dispatch({ type: reducerCases.SET_PLAYLIST_ID, selectedPlaylistId });
     dispatch({ type: reducerCases.SET_SEARCH_RAPID, searchPlaylistRapid: [] });
   };

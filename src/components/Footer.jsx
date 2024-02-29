@@ -8,7 +8,7 @@ export default function Footer() {
   return (
     <Container>
       <MusicPlayer />
-
+      
       <div className="copyrightContainer">
         <div div className="footerCopywright">
           <div>Designed and Developed by Rushikesh Ganorkar</div>
