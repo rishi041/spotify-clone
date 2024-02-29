@@ -62,6 +62,7 @@ const Container = styled.div`
   padding: 2rem;
   height: 15vh;
   position: sticky;
+  z-index: 2;
   top: 0;
   transition: 0.3s ease-in-out;
   background-color: ${({ navBackground }) =>
