@@ -151,8 +151,9 @@ export default function MusicPlayer() {
 }
 
 const PlayerApp = ({ data }) => {
+  const [{ selectedPlaylistRapid, currentPlaying }] = useStateProvider();
   const playlist = [
-    { src: data?.preview_url, name: data?.name },
+    { src: data?.preview_url, name: data?.name, image: data?.trackImage },
     // { src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3" },
     // { src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3" },
   ];
@@ -173,18 +174,32 @@ const PlayerApp = ({ data }) => {
   };
 
   return (
-    <div className="container">
-      <AudioPlayer
-        src={playlist[currentTrack].src}
-        customControlsSection={[
-          <div>{playlist[currentTrack].name} </div>,
-          RHAP_UI.ADDITIONAL_CONTROLS,
-          RHAP_UI.MAIN_CONTROLS,
-          RHAP_UI.VOLUME_CONTROLS,
-        ]}
-        layout="stacked-reverse horizontal"
-      />
-    </div>
+    <Container>
+      <div className="musicContainer">
+        <div className="musicInfo">
+          <div className="musicTitle">
+            <img src={playlist[currentTrack].image} />
+            {currentPlaying ? (
+              <div className="musicName">{playlist[currentTrack].name} </div>
+            ) : (
+              <div className="musicName">{data?.tracks[0].name} </div>
+            )}
+          </div>
+          <div className="musicControls">
+            <AudioPlayer
+              src={playlist[currentTrack].src}
+              customControlsSection={[
+                // <div>{playlist[currentTrack].name} </div>,
+                RHAP_UI.ADDITIONAL_CONTROLS,
+                RHAP_UI.MAIN_CONTROLS,
+                RHAP_UI.VOLUME_CONTROLS,
+              ]}
+              layout="stacked-reverse horizontal"
+            />
+          </div>
+        </div>
+      </div>
+    </Container>
   );
 };
 
@@ -203,12 +218,14 @@ const Container = styled.div`
           margin-left: 1rem;
           font-size: 1rem;
         }
+        width: 20%;
       }
 
       .musicControls {
         display: flex;
         flex-direction: column;
         align-items: center;
+        width: 80%;
         .progressBar {
           display: flex;
           align-items: baseline;
