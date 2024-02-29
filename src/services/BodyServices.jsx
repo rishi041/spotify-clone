@@ -1,20 +1,22 @@
 import axios from "axios";
 import { reducerCases } from "../utils/Constants";
-export const getInitialPlaylist = async (
-  token,
-  dispatch,
-  selectedPlaylistId,
-) => {
+const X_RapidAPI_Key = import.meta.env.VITE_X_RAPID_API_KEY;
+const X_RapidAPI_Host = import.meta.env.VITE_X_RAPID_API_HOST;
+
+export const getInitialPlaylistRapid = async (dispatch, selectedPlaylistId) => {
   const response = await axios.get(
-    `https://api.spotify.com/v1/playlists/${selectedPlaylistId}`,
+    `https://spotify81.p.rapidapi.com/playlist`,
     {
-      headers: {
-        Authorization: "Bearer " + token,
-        "Content-Type": "application/json",
+      params: {
+        id: selectedPlaylistId,
       },
-    },
+      headers: {
+        "X-RapidAPI-Key": X_RapidAPI_Key,
+        "X-RapidAPI-Host": X_RapidAPI_Host,
+      },
+    }
   );
-  const selectedPlaylist = {
+  const selectedPlaylistRapid = {
     id: response.data.id,
     name: response.data.name,
     description: response.data.description.startsWith("<a")
@@ -27,6 +29,7 @@ export const getInitialPlaylist = async (
       id: track.id,
       name: track.name,
       artists: track.artists.map((artist) => artist.name),
+      trackImageHome: track.album.images[1].url,
       trackImage: track.album.images[2].url,
       duration: track.duration_ms,
       album: track.album.name,
@@ -35,51 +38,43 @@ export const getInitialPlaylist = async (
       track_number: track.track_number,
     })),
   };
-  console.log(selectedPlaylist, "222selectedPlaylist");
-  dispatch({ type: reducerCases.SET_PLAYLIST, selectedPlaylist });
+
+  dispatch({ type: reducerCases.SET_PLAYLIST_RAPID, selectedPlaylistRapid });
 };
 
-export const playTrack = async (
+export const playTrackRapid = async (
+  dispatch,
   id,
   name,
   artists,
   trackImage,
-  preview_url,
-  context_uri,
+  // preview_url,
+  context_uri
   // track_number,
   // token,
-  dispatch,
 ) => {
-  const currentPlaying = {
-    id,
-    name,
-    artists,
-    trackImage,
-    preview_url,
-    context_uri,
-  };
+  const url = `https://spotify81.p.rapidapi.com/tracks`;
 
-  dispatch({ type: reducerCases.SET_PLAYING, currentPlaying });
-  dispatch({ type: reducerCases.SET_PLAYER_STATE, playerState: true });
-  // const response = await axios.put(
-  //   `https://api.spotify.com/v1/me/player/play`,
-  //   {
-  //     context_uri,
-  //     offset: {
-  //       position: track_number - 1,
-  //     },
-  //     position_ms: 0,
-  //   },
-  //   {
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       Authorization: "Bearer " + token,
-  //     },
-  //   },
-  // );
-  // if (response.status === 204) {
+  const response = await axios.get(url, {
+    params: {
+      ids: id,
+    },
+    headers: {
+      "X-RapidAPI-Key": X_RapidAPI_Key,
+      "X-RapidAPI-Host": X_RapidAPI_Host,
+    },
+  });
+  if (response.status === 200) {
+    const currentPlaying = {
+      id,
+      name,
+      artists,
+      trackImage,
+      preview_url: response.data.tracks[0].preview_url,
+      context_uri,
+    };
 
-  // } else {
-  //   dispatch({ type: reducerCases.SET_PLAYER_STATE, playerState: true });
-  // }
+    dispatch({ type: reducerCases.SET_PLAYING, currentPlaying });
+  } else {
+  }
 };

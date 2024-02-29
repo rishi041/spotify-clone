@@ -3,13 +3,11 @@ import { useStateProvider } from "../utils/StateProvider";
 import { FaSearch } from "react-icons/fa";
 import { CgProfile } from "react-icons/cg";
 import { useState, useEffect, useCallback } from "react";
-import { getSearchData } from "../services/SearchServices";
+import { getSearchRapidData } from "../services/SearchServices";
 
 // eslint-disable-next-line react/prop-types
 export default function Navbar({ navBackground }) {
-  const [{ token }, dispatch] = useStateProvider();
-
-  const [{ userInfo }] = useStateProvider();
+  const [{ userInfoRapid }, dispatch] = useStateProvider();
   const [search, setSearch] = useState("");
 
   const useDebounce = (effect, dependencies, delay) => {
@@ -23,7 +21,8 @@ export default function Navbar({ navBackground }) {
 
   useDebounce(
     () => {
-      getSearchData(token, dispatch, search);
+      // getSearchData(token, dispatch, search);
+      getSearchRapidData(dispatch, search);
     },
     [search, dispatch],
     800,
@@ -47,9 +46,9 @@ export default function Navbar({ navBackground }) {
         </div>
       </div>
       <div className="avatar">
-        <a href={userInfo?.userUrl}>
+        <a href={userInfoRapid?.userUrl}>
           <CgProfile />
-          <span>{userInfo?.name}</span>
+          <span>{userInfoRapid?.name}</span>
         </a>
       </div>
     </Container>
@@ -63,6 +62,7 @@ const Container = styled.div`
   padding: 2rem;
   height: 15vh;
   position: sticky;
+  z-index: 2;
   top: 0;
   transition: 0.3s ease-in-out;
   background-color: ${({ navBackground }) =>

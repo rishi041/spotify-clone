@@ -1,58 +1,47 @@
 import { reducerCases } from "./Constants";
 
 export const initialState = {
-  token: null,
-  userInfo: null,
-  playlists: [],
+  userInfoRapid: null,
+  playlistsRapid: [],
   currentPlaying: null,
-  playerState: false,
-  selectedPlaylist: null,
+  selectedPlaylistRapid: null,
   selectedPlaylistId: "37i9dQZF1DWXtlo6ENS92N",
-  searchPlaylist: [],
+  searchPlaylistRapid: [],
 };
 
 const reducer = (state, action) => {
   switch (action.type) {
-    case reducerCases.SET_TOKEN:
+    case reducerCases.SET_USER_RAPID:
       return {
         ...state,
-        token: action.token,
+        userInfoRapid: action.userInfoRapid,
       };
-    case reducerCases.SET_USER:
+    case reducerCases.SET_PLAYLISTS_RAPID:
       return {
         ...state,
-        userInfo: action.userInfo,
-      };
-    case reducerCases.SET_PLAYLISTS:
-      return {
-        ...state,
-        playlists: action.playlists,
+        playlistsRapid: action.playlistsRapid,
       };
     case reducerCases.SET_PLAYING:
       return {
         ...state,
         currentPlaying: action.currentPlaying,
       };
-    case reducerCases.SET_PLAYER_STATE:
+    case reducerCases.SET_PLAYLIST_RAPID:
       return {
         ...state,
-        playerState: action.playerState,
-      };
-    case reducerCases.SET_PLAYLIST:
-      return {
-        ...state,
-        selectedPlaylist: action.selectedPlaylist,
+        selectedPlaylistRapid: action.selectedPlaylistRapid,
       };
     case reducerCases.SET_PLAYLIST_ID:
       return {
         ...state,
         selectedPlaylistId: action.selectedPlaylistId,
       };
-    case reducerCases.SET_SEARCH:
+    case reducerCases.SET_SEARCH_RAPID:
       return {
         ...state,
-        searchPlaylist: action.searchPlaylist,
+        searchPlaylistRapid: action.searchPlaylistRapid,
       };
+
     default:
       return state;
   }
