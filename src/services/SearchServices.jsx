@@ -4,7 +4,7 @@ import { reducerCases } from "../utils/Constants";
 const X_RapidAPI_Key = import.meta.env.VITE_X_RAPID_API_KEY;
 const X_RapidAPI_Host = import.meta.env.VITE_X_RAPID_API_HOST;
 
-export const getSearchRapidData = async (dispatch, search, navigate) => {
+export const getSearchRapidData = async (dispatch, search) => {
 
   try {
     // let data = search
@@ -29,7 +29,6 @@ export const getSearchRapidData = async (dispatch, search, navigate) => {
       })
       .then((response) => {
         const searchPlaylistRapidData = response.data;
-        navigate('/playlists')
         dispatch({
           type: reducerCases.SET_SEARCH_RAPID,
           searchPlaylistRapid: searchPlaylistRapidData,

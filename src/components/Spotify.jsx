@@ -8,9 +8,10 @@ import Footer from "./Footer";
 import Navbar from "./Navbar";
 import Body from "./Body";
 import Home from "./Home";
+import SearchPage from "./SearchPage";
 
 export default function Spotify() {
-  const [{}, dispatch] = useStateProvider();
+  const [{ }, dispatch] = useStateProvider();
 
   const [navBackground, setNavBackground] = useState(false);
   const [headerBackground, setHeaderBackground] = useState(false);
@@ -53,6 +54,10 @@ export default function Spotify() {
                 <Route
                   path="/playlists"
                   element={<Body headerBackground={headerBackground} />}
+                />
+                <Route
+                  path="/search"
+                  element={<SearchPage headerBackground={headerBackground} />}
                 />
               </Routes>
             </div>

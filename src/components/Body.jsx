@@ -12,7 +12,7 @@ import {
 // eslint-disable-next-line react/prop-types
 export default function Body({ headerBackground }) {
   const [
-    { selectedPlaylistRapid, selectedPlaylistId, searchPlaylistRapid },
+    { selectedPlaylistRapid, selectedPlaylistId },
     dispatch,
   ] = useStateProvider();
 
@@ -32,27 +32,21 @@ export default function Body({ headerBackground }) {
         <>
           <div className="playlist">
             <div className="image">
-              {searchPlaylistRapid.tracks?.length > 0 ? (
-                <></>
-              ) : (
-                <img
-                  src={selectedPlaylistRapid.image}
-                  alt="selected playlist"
-                />
-              )}
+
+              <img
+                src={selectedPlaylistRapid.image}
+                alt="selected playlist"
+              />
+
             </div>
             <div className="details">
-              {searchPlaylistRapid.tracks?.length > 0 ? (
-                <span className="type">Search Songs</span>
-              ) : (
-                <>
-                  <span className="type">PLAYLIST</span>
-                  <h1 className="title">{selectedPlaylistRapid.name}</h1>
-                  <p className="description">
-                    {selectedPlaylistRapid.description}
-                  </p>
-                </>
-              )}
+
+              <span className="type">PLAYLIST</span>
+              <h1 className="title">{selectedPlaylistRapid.name}</h1>
+              <p className="description">
+                {selectedPlaylistRapid.description}
+              </p>
+
             </div>
           </div>
           <div className="list">
@@ -72,131 +66,66 @@ export default function Body({ headerBackground }) {
                 </span>
               </div>
             </div>
-            {searchPlaylistRapid.tracks?.length > 0 ? (
-              <div className="tracks">
-                {searchPlaylistRapid.tracks.map(
-                  (
-                    {
-                      data,
-                      id = data.id,
-                      name = data.name,
-                      artists = data.artists,
-                      trackImage,
-                      preview_url,
-                      context_uri,
-                      album = data.albumOfTrack,
-                      uri = data.uri,
-                      // track_number,
-                      duration_ms = data.duration.totalMilliseconds,
-                    },
-                    index,
-                  ) => {
-                    return (
-                      <div
-                        className="row"
-                        key={id}
-                        onClick={() =>
-                          playTrackRapid(
-                            dispatch,
-                            id,
-                            name,
-                            (artists = [
-                              `${artists.items[0].profile.name}`,
-                              "",
-                            ]),
-                            (trackImage = album.coverArt.sources[1].url),
-                            // (preview_url = null),
-                            (context_uri = uri),
-                            // track_number,
-                            // token,
-                          )
-                        }
-                      >
-                        <div className="col">
-                          <span>{index + 1}</span>
+
+
+            <div className="tracks">
+              {selectedPlaylistRapid.tracks.map(
+                (
+                  {
+                    id,
+                    name,
+                    artists,
+                    trackImage,
+                    preview_url,
+                    context_uri,
+                    album,
+                    // track_number,
+                    duration,
+                  },
+                  index,
+                ) => {
+                  return (
+                    <div
+                      className="row"
+                      key={id}
+                      onClick={() =>
+                        playTrackRapid(
+                          dispatch,
+                          id,
+                          name,
+                          artists,
+                          trackImage,
+                          preview_url,
+                          context_uri,
+                          // track_number,
+                          // token,
+                        )
+                      }
+                    >
+                      <div className="col">
+                        <span>{index + 1}</span>
+                      </div>
+                      <div className="col detail">
+                        <div className="image">
+                          <img src={trackImage} alt="track" />
                         </div>
-                        <div className="col detail">
-                          <div className="image">
-                            <img
-                              src={album.coverArt.sources[1].url}
-                              alt="track"
-                            />
-                          </div>
-                          <div className="info">
-                            <span className="name">{name}</span>
-                            <span>{artists.items[0].profile.name}</span>
-                          </div>
-                        </div>
-                        <div className="col">
-                          <span>{album.name}</span>
-                        </div>
-                        <div className="col">
-                          <span>{msToMinutesAndSeconds(duration_ms)}</span>
+                        <div className="info">
+                          <span className="name">{name}</span>
+                          <span>{artists}</span>
                         </div>
                       </div>
-                    );
-                  },
-                )}
-              </div>
-            ) : (
-              <div className="tracks">
-                {selectedPlaylistRapid.tracks.map(
-                  (
-                    {
-                      id,
-                      name,
-                      artists,
-                      trackImage,
-                      preview_url,
-                      context_uri,
-                      album,
-                      // track_number,
-                      duration,
-                    },
-                    index,
-                  ) => {
-                    return (
-                      <div
-                        className="row"
-                        key={id}
-                        onClick={() =>
-                          playTrackRapid(
-                            dispatch,
-                            id,
-                            name,
-                            artists,
-                            trackImage,
-                            preview_url,
-                            context_uri,
-                            // track_number,
-                            // token,
-                          )
-                        }
-                      >
-                        <div className="col">
-                          <span>{index + 1}</span>
-                        </div>
-                        <div className="col detail">
-                          <div className="image">
-                            <img src={trackImage} alt="track" />
-                          </div>
-                          <div className="info">
-                            <span className="name">{name}</span>
-                            <span>{artists}</span>
-                          </div>
-                        </div>
-                        <div className="col">
-                          <span>{album}</span>
-                        </div>
-                        <div className="col">
-                          <span>{msToMinutesAndSeconds(duration)}</span>
-                        </div>
+                      <div className="col">
+                        <span>{album}</span>
                       </div>
-                    );
-                  },
-                )}
-              </div>
-            )}
+                      <div className="col">
+                        <span>{msToMinutesAndSeconds(duration)}</span>
+                      </div>
+                    </div>
+                  );
+                },
+              )}
+            </div>
+
           </div>
         </>
       )}

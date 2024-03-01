@@ -4,12 +4,16 @@ import { FaSearch } from "react-icons/fa";
 import { CgProfile } from "react-icons/cg";
 import { useState, useEffect, useCallback } from "react";
 import { getSearchRapidData } from "../services/SearchServices";
-import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import { GoHomeFill } from "react-icons/go";
+import { BiLibrary } from "react-icons/bi";
+
 // eslint-disable-next-line react/prop-types
 export default function Navbar({ navBackground }) {
-  const [{ userInfoRapid, searchPlaylistRapid }, dispatch] = useStateProvider();
+  const [{ userInfoRapid }, dispatch] = useStateProvider();
   const [search, setSearch] = useState("");
-  const navigate = useNavigate()
+  const location = useLocation();
+
 
   const useDebounce = (effect, dependencies, delay) => {
     const callback = useCallback(effect, dependencies);
@@ -24,7 +28,7 @@ export default function Navbar({ navBackground }) {
   useDebounce(
     () => {
       // getSearchData(token, dispatch, search);
-      getSearchRapidData(dispatch, search, navigate)
+      getSearchRapidData(dispatch, search)
 
     },
     [search, dispatch],
@@ -36,17 +40,41 @@ export default function Navbar({ navBackground }) {
   return (
     <Container navBackground={navBackground}>
       <div className="searchMusicContainer">
-        <div className="search__bar">
-          <FaSearch />
-          <input
-            id="search"
-            type="text"
-            spellCheck="false"
-            value={search || ""}
-            onChange={handleSearch}
-            placeholder="Artists, songs, or podcasts"
-          />
-        </div>
+        {location.pathname == "/search" ?
+          <div className="search__bar">
+            <FaSearch />
+            <input
+              id="search"
+              type="text"
+              spellCheck="false"
+              value={search || ""}
+              onChange={handleSearch}
+              placeholder="Artists, songs, or podcasts"
+            />
+          </div>
+          :
+          <>
+            {
+              location.pathname == "/" ?
+                (<h1 style={{
+                  color: 'white',
+                  display: 'flex',
+                  alignItems: 'center',
+                  width: '8.5rem',
+                  justifyContent: 'space-between'
+                }}><GoHomeFill />{' '} Home</h1>
+                ) : (<h1 style={{
+                  color: 'white',
+                  display: 'flex',
+                  alignItems: 'center',
+                  width: '14.2rem',
+                  justifyContent: 'space-between'
+                }}><BiLibrary />{' '} Your Playlist</h1>)
+            }
+          </>
+
+        }
+
       </div>
       <div className="avatar">
         <a href={userInfoRapid?.userUrl}>

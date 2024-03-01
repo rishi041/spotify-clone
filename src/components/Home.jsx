@@ -123,7 +123,7 @@ const Container = styled.div`
         align-content: space-around;
         padding: 1rem 0;
         &:hover {
-          background-color: rgba(0, 0, 0, 0.1);
+          background-color: rgba(0, 0, 0, 0.5);
         }
         .songCardImage {
           position: relative;
@@ -136,7 +136,7 @@ const Container = styled.div`
           }
           .songCardPlayIcon {
             position: absolute;
-            color: green;
+            color: #1db954;
             bottom: -0.7rem;
             right: -0.2rem;
             transform: translate(-0.1rem, -0.1rem);

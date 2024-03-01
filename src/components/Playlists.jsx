@@ -6,6 +6,7 @@ import { getPlaylistDataRapid } from "../services/PlaylistsServices";
 import { useNavigate } from "react-router-dom";
 import { GoHomeFill } from "react-icons/go";
 import { BiLibrary } from "react-icons/bi";
+import { IoSearch } from "react-icons/io5";
 
 export default function Playlists() {
   const [{ userInfoRapid }, dispatch] = useStateProvider();
@@ -35,6 +36,20 @@ export default function Playlists() {
               }}
             >
               Home
+            </strong>
+          </div>
+        </div>
+        <div className="sideBarText">
+          <div className="sideBarIcon">
+            <IoSearch />
+          </div>
+          <div>
+            <strong
+              onClick={() => {
+                navigate("/search");
+              }}
+            >
+              Search
             </strong>
           </div>
         </div>
