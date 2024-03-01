@@ -10,7 +10,6 @@ export const initialState = {
   selectedPlaylistId: "37i9dQZF1DWXtlo6ENS92N",
   searchPlaylist: [],
 };
-console.log(initialState, "initialState");
 
 const reducer = (state, action) => {
   switch (action.type) {

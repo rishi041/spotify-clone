@@ -10,8 +10,8 @@ export default function Login() {
       <img
         src="https://storage.googleapis.com/pr-newsroom-wp/1/2018/11/Spotify_Logo_RGB_Black.png"
         alt="spotify"
-      />
-      <button onClick={handleClick}>Connect Spotify</button>
+      />      
+      <button onClick={handleClick}>Connect RDG Spotify Clone</button>
     </Container>
   );
 }

@@ -92,7 +92,11 @@ export default function MusicPlayer() {
         <div className="musicInfo">
           <div className="musicTitle">
             <img src={data?.trackImage} />
-            <div>{data?.name} </div>
+            {currentPlaying ? (
+              <div className="musicName">{data?.name} </div>
+            ) : (
+              <div className="musicName">{data?.tracks[0].name} </div>
+            )}
           </div>
           <div className="musicControls">
             <div className="progressBar">
@@ -147,13 +151,18 @@ export default function MusicPlayer() {
 const Container = styled.div`
   .musicContainer {
     color: #fff;
+    margin-bottom: 2rem;
     .musicInfo {
       display: flex;
       justify-content: space-evenly;
       align-items: center;
       .musicTitle {
         display: flex;
-        align-items: flex-end;
+        align-items: center;
+        .musicName {
+          margin-left: 1rem;
+          font-size: 1rem;
+        }
       }
 
       .musicControls {

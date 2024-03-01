@@ -12,6 +12,7 @@ export const getUserInfo = async (dispatch, token) => {
     userId: data.id,
     userUrl: data.external_urls.spotify,
     name: data.display_name,
+    product: data.product,
   };
   dispatch({ type: reducerCases.SET_USER, userInfo });
 };

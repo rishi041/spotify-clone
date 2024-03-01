@@ -22,7 +22,7 @@ export default function Spotify() {
   };
 
   useEffect(()=>{
-    window.history.pushState({}, '', '/');
+    // window.history.pushState({}, '', '/');
   },[])
 
   useEffect(() => {

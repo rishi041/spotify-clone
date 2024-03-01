@@ -12,7 +12,7 @@ export default function Body({ headerBackground }) {
     { token, selectedPlaylist, selectedPlaylistId, searchPlaylist },
     dispatch,
   ] = useStateProvider();
-  console.log(selectedPlaylist, "selectedPlaylist");
+
   useEffect(() => {
     getInitialPlaylist(token, dispatch, selectedPlaylistId);
   }, [token, dispatch, selectedPlaylistId]);
@@ -28,12 +28,22 @@ export default function Body({ headerBackground }) {
         <>
           <div className="playlist">
             <div className="image">
-              {/* <img src={selectedPlaylist.image} alt="selected playlist" /> */}
+              {searchPlaylist.tracks ? (
+                <></>
+              ) : (
+                <img src={selectedPlaylist.image} alt="selected playlist" />
+              )}
             </div>
             <div className="details">
-              <span className="type">Search Songs</span>
-              {/* <h1 className="title">{selectedPlaylist.name}</h1> */}
-              {/* <p className="description">{selectedPlaylist.description}</p> */}
+              {searchPlaylist.tracks ? (
+                <span className="type">Search Songs</span>
+              ) : (
+                <>
+                  <span className="type">PLAYLIST</span>
+                  <h1 className="title">{selectedPlaylist.name}</h1>
+                  <p className="description">{selectedPlaylist.description}</p>
+                </>
+              )}
             </div>
           </div>
           <div className="list">
@@ -62,11 +72,12 @@ export default function Body({ headerBackground }) {
                       name,
                       artists,
                       trackImage,
-                      duration_ms,
-                      album,
-                      // context_uri,
                       preview_url,
-                      track_number,
+                      context_uri,
+                      album,
+                      uri,
+                      // track_number,
+                      duration_ms,
                     },
                     index,
                   ) => {
@@ -78,12 +89,12 @@ export default function Body({ headerBackground }) {
                           playTrack(
                             id,
                             name,
-                            artists,
-                            trackImage,
-                            // context_uri,
-                            preview_url,
-                            track_number,
-                            token,
+                            (artists = [`${artists[0].name}`, ""]),
+                            (trackImage = album.images[2].url),
+                            (preview_url = preview_url),
+                            (context_uri = uri),
+                            // track_number,
+                            // token,
                             dispatch,
                           )
                         }
@@ -120,11 +131,11 @@ export default function Body({ headerBackground }) {
                       name,
                       artists,
                       trackImage,
-                      duration,
-                      album,
-                      context_uri,
                       preview_url,
-                      track_number,
+                      context_uri,
+                      album,
+                      // track_number,
+                      duration,
                     },
                     index,
                   ) => {
@@ -138,10 +149,10 @@ export default function Body({ headerBackground }) {
                             name,
                             artists,
                             trackImage,
-                            context_uri,
                             preview_url,
-                            track_number,
-                            token,
+                            context_uri,
+                            // track_number,
+                            // token,
                             dispatch,
                           )
                         }
@@ -224,6 +235,7 @@ const Container = styled.div`
         grid-template-columns: 0.3fr 3.1fr 2fr 0.1fr;
         &:hover {
           background-color: rgba(0, 0, 0, 0.7);
+          cursor: pointer;
         }
         .col {
           display: flex;

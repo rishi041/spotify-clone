@@ -5,10 +5,11 @@ export default function Sidebar() {
     <Container>
       <div className="top__links">
         <div className="logo">
-          <img
+          {/* <img
             src="https://storage.googleapis.com/pr-newsroom-wp/1/2018/11/Spotify_Logo_RGB_White.png"
             alt="spotify"
-          />
+          /> */}
+          RDG Spotify Clone
         </div>
       </div>
       <Playlists />
@@ -27,6 +28,9 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     .logo {
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: white;
       text-align: center;
       margin: 1rem 0;
       img {
