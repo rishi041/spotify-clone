@@ -60,14 +60,14 @@ export default function Navbar({ navBackground }) {
                   color: 'white',
                   display: 'flex',
                   alignItems: 'center',
-                  width: '17%',
+                  width: '8.5rem',
                   justifyContent: 'space-between'
                 }}><GoHomeFill />{' '} Home</h1>
                 ) : (<h1 style={{
                   color: 'white',
                   display: 'flex',
                   alignItems: 'center',
-                  width: '29%',
+                  width: '14.2rem',
                   justifyContent: 'space-between'
                 }}><BiLibrary />{' '} Your Playlist</h1>)
             }
