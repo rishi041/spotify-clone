@@ -46,9 +46,9 @@ and visit http://localhost:3000.
 
 ## Screenshots
 
-![browse](Images/HomePage.png?raw=true 'HomePage')
-![playlist](Images/HomePage.PNG?raw=true 'HomePage')
-![artist](images/artist.png?raw=true 'Artist')
-![devices](images/devices.png?raw=true 'Artist')
+![browse](Images/HomePage.PNG?raw=true 'HomePage')
+![search](Images/SearchPage.PNG?raw=true 'search')
+![playlist](Images/PlaylistPage.PNG?raw=true 'PlaylistPage')
+![secondPlaylist](Images/PlaylistPage2.PNG?raw=true 'secondPlaylist')
 
 More in images folder.
