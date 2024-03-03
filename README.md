@@ -1,30 +1,62 @@
-# React + TypeScript + Vite
+# Spotify React Web Client
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Spotify Web Client using [Spotify Web Rapid API](https://rapidapi.com/airaudoeduardo/api/spotify81)
 
-Currently, two official plugins are available:
+This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## Expanding the ESLint configuration
+- Play Preview of audio tracks.
+- Control playback (pause, volume, shuffle, etc).
+- Add or edit your playlists.
+- See your recently played tracks and your top artists.
+- Follow and unfollow playlists and artists.
+- Add or remove tracks from your library.
+- Change the device in which you are currently playing.
+- Search tracks, albums, artists and playlists.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Try it out
 
-- Configure the top-level `parserOptions` property like this:
+https://spotify-react-web-client.onrender.com/
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: "latest",
-    sourceType: "module",
-    project: ["./tsconfig.json", "./tsconfig.node.json"],
-    tsconfigRootDir: __dirname,
-  },
-};
+**Warning:** Spotify Playback requires users to authenticate with a valid Spotify Premium subscription.
+
+## How to Run locally
+
+First you need a [Spotify Client ID](https://developer.spotify.com/dashboard/applications).
+
+```bash
+$ git clone https://github.com/francoborrelli/spotify-react-web-client.git
+$ cd spotify-react-web-client
+$ yarn install
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+You will have to define a '.env' file and set the following variables:
+
+```
+REACT_APP_CLIENT_ID="YOUR_CLIENT_ID"
+REACT_APP_REDIRECT_ID=http://localhost:3000/
+```
+
+Now run:
+
+```bash
+$ yarn start
+```
+
+and visit http://localhost:3000.
+
+## Use Docker!
+
+```
+docker-compose up -d
+```
+
+## Screenshots
+
+![browse](images/browse.png?raw=true 'Playlist')
+![playlist](images/playlist.png?raw=true 'Artist')
+![artist](images/artist.png?raw=true 'Artist')
+![devices](images/devices.png?raw=true 'Artist')
+
+More in images folder.
