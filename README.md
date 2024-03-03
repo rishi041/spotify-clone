@@ -21,7 +21,7 @@ https://spotify-clone-rdg.netlify.app/
 First you need a [Spotify Client ID](https://developer.spotify.com/dashboard/applications).
 
 ```bash
-$ git clone https://github.com/francoborrelli/spotify-react-web-client.git
+$ git clone https://github.com/rishi041/spotify-clone/blob/dev2/README.md
 $ cd spotify-clone (folder_name)
 $ npm install
 ```
