@@ -2,7 +2,7 @@
 
 Spotify Clone Web Client using [Spotify Web Rapid API](https://rapidapi.com/airaudoeduardo/api/spotify81)
 
-This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
+This project was bootstrapped with [create-vite](https://github.com/vitejs/vite).
 
 ## Features
 
