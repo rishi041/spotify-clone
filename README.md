@@ -46,8 +46,8 @@ and visit http://localhost:3000.
 
 ## Screenshots
 
-![browse](images/browse.png?raw=true 'Playlist')
-![playlist](images/playlist.png?raw=true 'Artist')
+![browse](Images/HomePage.png?raw=true 'HomePage')
+![playlist](Images/HomePage.PNG?raw=true 'HomePage')
 ![artist](images/artist.png?raw=true 'Artist')
 ![devices](images/devices.png?raw=true 'Artist')
 
