@@ -18,7 +18,7 @@ https://spotify-clone-rdg.netlify.app/
 
 ## How to Run locally
 
-First you need a [Spotify Client ID](https://developer.spotify.com/dashboard/applications).
+First you need to subscribe Spotify Rapid API[Spotify API](https://developer.spotify.com/dashboard/applications).
 
 ```bash
 $ git clone https://github.com/rishi041/spotify-clone/blob/dev2/README.md
