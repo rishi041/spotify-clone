@@ -29,8 +29,11 @@ $ npm install
 You will have to define a '.env' file and set the following variables:
 
 ```
-REACT_APP_CLIENT_ID="YOUR_CLIENT_ID"
-REACT_APP_REDIRECT_ID=http://localhost:3000/
+VITE_X_RAPID_API_KEY='YOUR_SPOTIFY_X_RAPID_API_KEY'
+VITE_X_RAPID_API_HOST='spotify81.p.rapidapi.com'
+VITE_USER_ID='c58e5jvzwc47uaecx4zudqz25'
+
+# VITE_USER_ID='31vdqxjygx2apwbjrzxyzv72n47u'
 ```
 
 Now run:
