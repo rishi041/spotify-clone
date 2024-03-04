@@ -2,7 +2,7 @@
 
 Spotify Clone Web Client using [Spotify Web Rapid API](https://rapidapi.com/airaudoeduardo/api/spotify81)
 
-This project was bulid with [create-vite](https://github.com/vitejs/vite).
+This project was bulid with [create-vite](https://github.com/vitejs/vite) & design inspiration from [Kishan Sheth](https://github.com/koolkishan).
 
 ## Features
 
