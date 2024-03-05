@@ -95,6 +95,7 @@ const Container = styled.div`
       position: absolute;
       bottom: 0rem;
       background: #181818;
+      font-size: 0.7rem;
       flex-direction: row;
       display: flex;
       align-items: center;
