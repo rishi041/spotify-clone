@@ -80,7 +80,7 @@ const Container = styled.div`
     font-size: 0.8rem;
     position: absolute;
     bottom: 0rem;
-    width: 97vw;
+    width: 100vw;
     .footerCopywright {
     }
     .footerBody {
@@ -102,7 +102,7 @@ const Container = styled.div`
       flex-direction: row;
       display: flex;
       align-items: center;
-      width: 97vw;
+      width: 100vw;
       justify-content: space-evenly;
     }
     @media (max-width: 443px) {
