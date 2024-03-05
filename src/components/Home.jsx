@@ -7,7 +7,6 @@ import { useStateProvider } from "../utils/StateProvider";
 import { useEffect, useState } from "react";
 import { IoPlayCircle } from "react-icons/io5";
 
-
 export default function Home() {
   const [
     { selectedPlaylistRapid, selectedPlaylistId, searchPlaylistRapid },
