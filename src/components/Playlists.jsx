@@ -110,8 +110,23 @@ const Container = styled.div`
       &:hover {
         color: white;
       }
+      @media (max-width: 768px) {
+        flex-direction: column;
+        font-size: 0.8rem;
+      }
+    }
+    @media (max-width: 768px) {
+      display: flex;
+      flex-direction: row;
+      position: absolute;
+      bottom: 1.2rem;
+      width: 100vw;
+      justify-content: space-around;
+      z-index: 1;
+      background: #181818;
     }
   }
+
   ul {
     list-style-type: none;
     display: flex;
