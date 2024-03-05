@@ -78,6 +78,9 @@ const Container = styled.div`
     justify-content: space-around;
     align-items: flex-end;
     font-size: 0.8rem;
+    position: absolute;
+    bottom: 0rem;
+    width: 97vw;
     .footerCopywright {
     }
     .footerBody {
@@ -101,6 +104,9 @@ const Container = styled.div`
       align-items: center;
       width: 97vw;
       justify-content: space-evenly;
+    }
+     @media (max-width: 443px) {
+      font-size: 0.5rem;
     }
   }
 `;
