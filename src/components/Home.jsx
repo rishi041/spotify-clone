@@ -169,6 +169,12 @@ const Container = styled.div`
         }
         .songCardArtistName {
           margin: 0;
+           @media (max-width: 768px) {
+           display:none;
+           }
+        }
+        @media (max-width: 768px) {
+          align-items: center;
         }
       }
       @media (max-width: 768px) {
