@@ -153,7 +153,12 @@ export default function MusicPlayer() {
 const PlayerApp = ({ data }) => {
   const [{ selectedPlaylistRapid, currentPlaying }] = useStateProvider();
   const playlist = [
-    { src: data?.preview_url, name: data?.name, image: data?.trackImage, artists: data?.artists },
+    {
+      src: data?.preview_url,
+      name: data?.name,
+      image: data?.trackImage,
+      artists: data?.artists,
+    },
     // { src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3" },
     // { src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3" },
   ];
@@ -162,16 +167,24 @@ const PlayerApp = ({ data }) => {
   const handleClickNext = () => {
     console.log("click next");
     setTrackIndex((currentTrack) =>
-      currentTrack < playlist.length - 1 ? currentTrack + 1 : 0,
+      currentTrack < playlist.length - 1 ? currentTrack + 1 : 0
     );
   };
 
   const handleEnd = () => {
     console.log("end");
     setTrackIndex((currentTrack) =>
-      currentTrack < playlist.length - 1 ? currentTrack + 1 : 0,
+      currentTrack < playlist.length - 1 ? currentTrack + 1 : 0
     );
   };
+
+  function truncateString(inputString, maxLength) {
+    if (inputString?.length <= maxLength) {
+      return `${inputString}`;
+    } else {
+      return `${inputString.substring(0, maxLength)}...`;
+    }
+  }
 
   return (
     <Container>
@@ -181,13 +194,27 @@ const PlayerApp = ({ data }) => {
             <img src={playlist[currentTrack].image} />
             {currentPlaying ? (
               <div>
-                <div className="musicName"><strong>{playlist[currentTrack].name}</strong> </div>
-                {playlist[currentTrack].artists && <div className="musicName">by {playlist[currentTrack].artists}</div>}
+                <div className="musicName">
+                  <strong>
+                    {truncateString(playlist[currentTrack].name, 15)}
+                  </strong>
+                </div>
+                {playlist[currentTrack].artists && (
+                  <div className="musicNameArtists">
+                    by {truncateString(playlist[currentTrack].artists, 10)}
+                  </div>
+                )}
               </div>
             ) : (
               <div>
-                <div className="musicName"><strong>{data?.tracks[0].name}</strong> </div>
-                {data?.tracks[0].artists && <div className="musicName">by {data?.tracks[0].artists}</div>}
+                <div className="musicName">
+                  <strong>{data?.tracks[0].name}</strong>
+                </div>
+                {data?.tracks[0].artists && (
+                  <div className="musicNameArtists">
+                    by {data?.tracks[0].artists}
+                  </div>
+                )}
               </div>
             )}
           </div>
@@ -224,6 +251,13 @@ const Container = styled.div`
           margin-left: 1rem;
           font-size: 1rem;
         }
+        .musicNameArtists {
+          margin-left: 1rem;
+          font-size: 1rem;
+          @media (max-width: 768px) {
+            display: none;
+          }
+        }
         width: 20%;
       }
 
@@ -242,6 +276,9 @@ const Container = styled.div`
         .pausePlayIcons {
           margin-top: 0.9rem;
           width: 40px;
+        }
+        @media (max-width: 768px) {
+          width: 60%;
         }
       }
 
@@ -299,5 +336,11 @@ const Container = styled.div`
   .rhap_controls-section {
     color: var(--rhap-bar-color);
     font-family: var(--rhap-font-family);
+  }
+  @media (max-width: 768px) {
+    position: absolute;
+    bottom: 1rem;
+    background: #181818;
+    width: 97vw;
   }
 `;
