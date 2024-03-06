@@ -7,7 +7,6 @@ import { useStateProvider } from "../utils/StateProvider";
 import { useEffect, useState } from "react";
 import { IoPlayCircle } from "react-icons/io5";
 
-
 export default function Home() {
   const [
     { selectedPlaylistRapid, selectedPlaylistId, searchPlaylistRapid },
@@ -23,9 +22,8 @@ export default function Home() {
   }, [selectedPlaylistRapid]);
 
   useEffect(() => {
-    getInitialPlaylistRapid(dispatch, '37i9dQZF1DWXtlo6ENS92N');
+    getInitialPlaylistRapid(dispatch, "37i9dQZF1DWXtlo6ENS92N");
   }, [dispatch, selectedPlaylistId]);
-
 
   function truncateString(inputString, maxLength) {
     if (inputString.length <= maxLength) {
@@ -56,18 +54,20 @@ export default function Home() {
                 },
                 index
               ) => {
-
                 return (
                   <div
                     className="songCard"
                     key={id}
                     onMouseEnter={() => {
-                      setIsHovered(prev => prev.map((_, i) => (i === index ? true : _)));
+                      setIsHovered((prev) =>
+                        prev.map((_, i) => (i === index ? true : _))
+                      );
                     }}
                     onMouseLeave={() => {
-                      setIsHovered(prev => prev.map((_, i) => (i === index ? false : _)));
+                      setIsHovered((prev) =>
+                        prev.map((_, i) => (i === index ? false : _))
+                      );
                     }}
-
                   >
                     <div className="songCardImage">
                       <img src={trackImageHome} alt="track" />
@@ -86,15 +86,18 @@ export default function Home() {
                               // track_number,
                               // token,
                             )
-                          }>
+                          }
+                        >
                           <IoPlayCircle />
                         </div>
                       )}
                     </div>
 
-                    <div className="songCardName">{truncateString(name, 25)}</div>
+                    <div className="songCardName">
+                      {truncateString(name, 25)}
+                    </div>
                     <div className="songCardArtistName">
-                      {truncateString(`${[...artists].join(', ')}`, 25)}
+                      {truncateString(`${[...artists].join(", ")}`, 25)}
                     </div>
                   </div>
                 );
@@ -133,6 +136,10 @@ const Container = styled.div`
             object-fit: contain;
             border-radius: 0.8rem;
             z-index: -1;
+            @media (max-width: 768px) {
+              width: 8rem;
+              height: 8rem;
+            }
           }
           .songCardPlayIcon {
             position: absolute;
@@ -143,26 +150,36 @@ const Container = styled.div`
             font-size: 4rem;
             cursor: pointer;
             opacity: 1;
-            animation: fadeIn 0.3s ease-in; 
-            @keyframes fadeIn {  
-              from {  
-                  opacity:0;  
-              }  
-              to {  
-                  opacity:1;  
-              }  
-           }
+            animation: fadeIn 0.3s ease-in;
+            @keyframes fadeIn {
+              from {
+                opacity: 0;
+              }
+              to {
+                opacity: 1;
+              }
+            }
+            @media (max-width: 768px) {
+              font-size: 2.5rem;
+            }
           }
-          
         }
         .songCardName {
           margin: 10px 0;
         }
         .songCardArtistName {
           margin: 0;
+           @media (max-width: 768px) {
+           display:none;
+           }
+        }
+        @media (max-width: 768px) {
+          align-items: center;
         }
       }
-    
+      @media (max-width: 768px) {
+        grid-template-columns: repeat(auto-fit, minmax(7.5rem, 1fr));
+      }
     }
   }
 `;

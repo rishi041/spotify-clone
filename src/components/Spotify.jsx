@@ -11,7 +11,7 @@ import Home from "./Home";
 import SearchPage from "./SearchPage";
 
 export default function Spotify() {
-  const [{ }, dispatch] = useStateProvider();
+  const [{}, dispatch] = useStateProvider();
 
   const [navBackground, setNavBackground] = useState(false);
   const [headerBackground, setHeaderBackground] = useState(false);
@@ -87,8 +87,7 @@ const Container = styled.div`
     background-color: rgb(32, 87, 100);
     .body {
       height: 100%;
-      width: 100%;
-      // width: 100vw;
+      width: 100vw;
       overflow: auto;
       &::-webkit-scrollbar {
         width: 0.7rem;
@@ -97,6 +96,9 @@ const Container = styled.div`
           background-color: rgba(255, 255, 255, 0.6);
         }
       }
+    }
+    @media (max-width: 768px) {
+      grid-template-columns: 0vw 100vw;
     }
   }
 `;

@@ -8,7 +8,7 @@ export default function Footer() {
   return (
     <Container>
       <MusicPlayer />
-      
+
       <div className="copyrightContainer">
         <div div className="footerCopywright">
           <div>Designed and Developed by Rushikesh Ganorkar</div>
@@ -69,18 +69,18 @@ const Container = styled.div`
   width: 100%;
   background-color: #181818;
   border-top: 1px solid #282828;
-  // display: grid;
-  // grid-template-divumns: 1fr 2fr 1fr;
   align-items: center;
   justify-content: center;
   padding: 0 1rem;
-  // background: linear-gradient(rgb(24 64 74), black);
   .copyrightContainer {
     color: white;
     display: flex;
     justify-content: space-around;
     align-items: flex-end;
     font-size: 0.8rem;
+    position: absolute;
+    bottom: 0rem;
+    width: 100vw;
     .footerCopywright {
     }
     .footerBody {
@@ -94,5 +94,22 @@ const Container = styled.div`
         padding: 0 0.5rem;
       }
     }
+    @media (max-width: 768px) {
+      position: absolute;
+      bottom: 0rem;
+      background: #181818;
+      font-size: 0.7rem;
+      flex-direction: row;
+      display: flex;
+      align-items: center;
+      width: 100vw;
+      justify-content: space-evenly;
+    }
+    @media (max-width: 443px) {
+      font-size: 0.5rem;
+    }
+  }
+  @media (max-width: 768px) {
+    padding: 0;
   }
 `;
