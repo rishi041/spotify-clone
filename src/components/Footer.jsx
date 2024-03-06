@@ -80,7 +80,7 @@ const Container = styled.div`
     font-size: 0.8rem;
     position: absolute;
     bottom: 0rem;
-    width: 100vw;
+    width: 98vw;
     .footerCopywright {
     }
     .footerBody {
