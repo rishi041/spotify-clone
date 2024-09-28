@@ -1,20 +1,22 @@
 import styled from "styled-components";
-import { useStateProvider } from "../utils/StateProvider";
+import { useDispatch, useSelector } from "react-redux";
 import { FaSearch } from "react-icons/fa";
 import { CgProfile } from "react-icons/cg";
 import { useState, useEffect, useCallback } from "react";
-import { getSearchData } from "../services/SearchServices";
+import { getSearchRapidData } from "../services/SearchServices";
+import { useLocation } from "react-router-dom";
+import { GoHomeFill } from "react-icons/go";
+import { BiLibrary } from "react-icons/bi";
 
 // eslint-disable-next-line react/prop-types
 export default function Navbar({ navBackground }) {
-  const [{ token }, dispatch] = useStateProvider();
-
-  const [{ userInfo }] = useStateProvider();
+  const userInfoRapid = useSelector((state) => state.spotifyData.userInfoRapid)
+  const dispatch = useDispatch()
   const [search, setSearch] = useState("");
+  const location = useLocation();
 
   const useDebounce = (effect, dependencies, delay) => {
     const callback = useCallback(effect, dependencies);
-
     useEffect(() => {
       const timeout = setTimeout(callback, delay);
       return () => clearTimeout(timeout);
@@ -23,33 +25,57 @@ export default function Navbar({ navBackground }) {
 
   useDebounce(
     () => {
-      getSearchData(token, dispatch, search);
+      if (search !== "") {
+        getSearchRapidData(dispatch, search)
+      }
     },
-    [search, dispatch],
+    [search],
     800,
   );
 
   const handleSearch = (e) => setSearch(e.target.value);
 
   return (
-    <Container navBackground={navBackground}>
+    <Container $navBackground={navBackground}>
       <div className="searchMusicContainer">
-        <div className="search__bar">
-          <FaSearch />
-          <input
-            id="search"
-            type="text"
-            spellCheck="false"
-            value={search || ""}
-            onChange={handleSearch}
-            placeholder="Artists, songs, or podcasts"
-          />
-        </div>
+        {location.pathname == "/search" ?
+          <div className="search__bar">
+            <FaSearch />
+            <input
+              id="search"
+              type="text"
+              spellCheck="false"
+              value={search || ""}
+              onChange={handleSearch}
+              placeholder="Artists, songs, or podcasts"
+            />
+          </div>
+          :
+          <>
+            {
+              location.pathname == "/" ?
+                (<h1 style={{
+                  color: 'white',
+                  display: 'flex',
+                  alignItems: 'center',
+                  width: '8.5rem',
+                  justifyContent: 'space-between'
+                }}><GoHomeFill />{' '} Home</h1>
+                ) : (<h1 style={{
+                  color: 'white',
+                  display: 'flex',
+                  alignItems: 'center',
+                  width: '14.2rem',
+                  justifyContent: 'space-between'
+                }}><BiLibrary />{' '} Your Playlist</h1>)
+            }
+          </>
+        }
       </div>
       <div className="avatar">
-        <a href={userInfo?.userUrl}>
+        <a href={userInfoRapid?.userUrl}>
           <CgProfile />
-          <span>{userInfo?.name}</span>
+          <span>{userInfoRapid?.name}</span>
         </a>
       </div>
     </Container>
@@ -63,10 +89,11 @@ const Container = styled.div`
   padding: 2rem;
   height: 15vh;
   position: sticky;
+  z-index: 2;
   top: 0;
   transition: 0.3s ease-in-out;
-  background-color: ${({ navBackground }) =>
-    navBackground ? "rgba(0,0,0,0.7)" : "none"};
+  background-color: ${(props) =>
+    props.$navBackground ? "rgba(0,0,0,0.7)" : "none"};
   .searchMusicContainer {
     position: relative;
     width: 50vw;

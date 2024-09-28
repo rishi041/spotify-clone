@@ -1,14 +1,21 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
+import { configureStore } from '@reduxjs/toolkit'
+import { Provider } from 'react-redux'
+import spotifyReducer from './utils/SpotifyReducer'
 import "./index.css";
-import { StateProvider } from "./utils/StateProvider";
-import reducer, { initialState } from "./utils/Reducer";
+
+export const store = configureStore({
+  reducer: {
+    spotifyData: spotifyReducer
+  },
+})
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <StateProvider initialState={initialState} reducer={reducer}>
-      <App />
-    </StateProvider>
-  </React.StrictMode>
+
+  <Provider store={store}>
+    <App />
+  </Provider>
+
 );

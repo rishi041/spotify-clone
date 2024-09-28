@@ -1,21 +1,21 @@
-// import axios from "axios";
 import { useEffect } from "react";
 import styled from "styled-components";
-import { useStateProvider } from "../utils/StateProvider";
+import { useDispatch, useSelector } from "react-redux";
 import { AiFillClockCircle } from "react-icons/ai";
-// import { reducerCases } from "../../utils/Constants";
-import { getInitialPlaylist, playTrack } from "../services/BodyServices";
+import { SET_PLAYING } from "../utils/SpotifyReducer";
+import {
+  getInitialPlaylistRapid,
+} from "../services/BodyServices";
 
 // eslint-disable-next-line react/prop-types
 export default function Body({ headerBackground }) {
-  const [
-    { token, selectedPlaylist, selectedPlaylistId, searchPlaylist },
-    dispatch,
-  ] = useStateProvider();
+  const selectedPlaylistRapid = useSelector((state) => state.spotifyData.selectedPlaylistRapid)
+  const selectedPlaylistId = useSelector((state) => state.spotifyData.selectedPlaylistId)
+  const dispatch = useDispatch()
 
   useEffect(() => {
-    getInitialPlaylist(token, dispatch, selectedPlaylistId);
-  }, [token, dispatch, selectedPlaylistId]);
+    getInitialPlaylistRapid(dispatch, selectedPlaylistId);
+  }, [selectedPlaylistId]);
 
   const msToMinutesAndSeconds = (ms) => {
     var minutes = Math.floor(ms / 60000);
@@ -24,26 +24,25 @@ export default function Body({ headerBackground }) {
   };
   return (
     <Container headerBackground={headerBackground}>
-      {selectedPlaylist && (
+      {selectedPlaylistRapid && (
         <>
           <div className="playlist">
             <div className="image">
-              {searchPlaylist.tracks ? (
-                <></>
-              ) : (
-                <img src={selectedPlaylist.image} alt="selected playlist" />
-              )}
+
+              <img
+                src={selectedPlaylistRapid.image}
+                alt="selected playlist"
+              />
+
             </div>
             <div className="details">
-              {searchPlaylist.tracks ? (
-                <span className="type">Search Songs</span>
-              ) : (
-                <>
-                  <span className="type">PLAYLIST</span>
-                  <h1 className="title">{selectedPlaylist.name}</h1>
-                  <p className="description">{selectedPlaylist.description}</p>
-                </>
-              )}
+
+              <span className="type">PLAYLIST</span>
+              <h1 className="title">{selectedPlaylistRapid.name}</h1>
+              <p className="description">
+                {selectedPlaylistRapid.description}
+              </p>
+
             </div>
           </div>
           <div className="list">
@@ -63,124 +62,65 @@ export default function Body({ headerBackground }) {
                 </span>
               </div>
             </div>
-            {searchPlaylist.tracks ? (
-              <div className="tracks">
-                {searchPlaylist.tracks.items.map(
-                  (
-                    {
-                      id,
-                      name,
-                      artists,
-                      trackImage,
-                      preview_url,
-                      context_uri,
-                      album,
-                      uri,
-                      // track_number,
-                      duration_ms,
-                    },
-                    index,
-                  ) => {
-                    return (
-                      <div
-                        className="row"
-                        key={id}
-                        onClick={() =>
-                          playTrack(
-                            id,
-                            name,
-                            (artists = [`${artists[0].name}`, ""]),
-                            (trackImage = album.images[2].url),
-                            (preview_url = preview_url),
-                            (context_uri = uri),
-                            // track_number,
-                            // token,
-                            dispatch,
-                          )
-                        }
-                      >
-                        <div className="col">
-                          <span>{index + 1}</span>
+
+
+            <div className="tracks">
+              {selectedPlaylistRapid.tracks.map(
+                (
+                  {
+                    id,
+                    name,
+                    artists,
+                    trackImage,
+                    preview_url,
+                    context_uri,
+                    album,
+                    duration,
+                  },
+                  index,
+                ) => {
+                  return (
+                    <div
+                      className="row"
+                      key={id}
+                      onClick={() => {
+                        const currentPlaying = {
+                          id,
+                          name,
+                          artists,
+                          trackImage,
+                          preview_url,
+                          context_uri,
+                        };
+
+                        dispatch(SET_PLAYING(currentPlaying));
+                      }
+                      }
+                    >
+                      <div className="col">
+                        <span>{index + 1}</span>
+                      </div>
+                      <div className="col detail">
+                        <div className="image">
+                          <img src={trackImage} alt="track" />
                         </div>
-                        <div className="col detail">
-                          <div className="image">
-                            <img src={album.images[2].url} alt="track" />
-                          </div>
-                          <div className="info">
-                            <span className="name">{name}</span>
-                            <span>{artists[0].name}</span>
-                          </div>
-                        </div>
-                        <div className="col">
-                          <span>{album.name}</span>
-                        </div>
-                        <div className="col">
-                          <span>{msToMinutesAndSeconds(duration_ms)}</span>
+                        <div className="info">
+                          <span className="name">{name}</span>
+                          <span>{artists}</span>
                         </div>
                       </div>
-                    );
-                  },
-                )}
-              </div>
-            ) : (
-              <div className="tracks">
-                {selectedPlaylist.tracks.map(
-                  (
-                    {
-                      id,
-                      name,
-                      artists,
-                      trackImage,
-                      preview_url,
-                      context_uri,
-                      album,
-                      // track_number,
-                      duration,
-                    },
-                    index,
-                  ) => {
-                    return (
-                      <div
-                        className="row"
-                        key={id}
-                        onClick={() =>
-                          playTrack(
-                            id,
-                            name,
-                            artists,
-                            trackImage,
-                            preview_url,
-                            context_uri,
-                            // track_number,
-                            // token,
-                            dispatch,
-                          )
-                        }
-                      >
-                        <div className="col">
-                          <span>{index + 1}</span>
-                        </div>
-                        <div className="col detail">
-                          <div className="image">
-                            <img src={trackImage} alt="track" />
-                          </div>
-                          <div className="info">
-                            <span className="name">{name}</span>
-                            <span>{artists}</span>
-                          </div>
-                        </div>
-                        <div className="col">
-                          <span>{album}</span>
-                        </div>
-                        <div className="col">
-                          <span>{msToMinutesAndSeconds(duration)}</span>
-                        </div>
+                      <div className="col">
+                        <span>{album}</span>
                       </div>
-                    );
-                  },
-                )}
-              </div>
-            )}
+                      <div className="col">
+                        <span>{msToMinutesAndSeconds(duration)}</span>
+                      </div>
+                    </div>
+                  );
+                },
+              )}
+            </div>
+
           </div>
         </>
       )}
@@ -222,7 +162,7 @@ const Container = styled.div`
       padding: 1rem 3rem;
       transition: 0.3s ease-in-out;
       background-color: ${({ headerBackground }) =>
-        headerBackground ? "#000000dc" : "none"};
+    headerBackground ? "#000000dc" : "none"};
     }
     .tracks {
       margin: 0 2rem;
