@@ -47,7 +47,7 @@ export default function Spotify() {
                 />
                 <Route
                   path="/search"
-                  element={<SearchPage headerBackground={headerBackground} />}
+                  element={<SearchPage navBackground={navBackground} />}
                 />
               </Routes>
             </div>
@@ -67,17 +67,14 @@ const Container = styled.div`
   max-height: 100vh;
   overflow: hidden;
   display: grid;
-  grid-template-rows: 85vh 15vh;
+  grid-template-rows: calc(100vh - 15vh) calc(100vh - 85vh);
   .spotify__body {
     display: grid;
-    grid-template-columns: 15vw 85vw;
-    height: 100%;
-    width: 100%;
+    grid-template-columns: calc(100vw - 85vw) calc(100vw - 15vw);
+    font-size: 0.875rem;
     background: linear-gradient(transparent, rgba(0, 0, 0, 1));
     background-color: rgb(32, 87, 100);
     .body {
-      height: 100%;
-      width: 100vw;
       overflow: auto;
       &::-webkit-scrollbar {
         width: 0.7rem;
@@ -87,8 +84,14 @@ const Container = styled.div`
         }
       }
     }
-    @media (max-width: 768px) {
-      grid-template-columns: 0vw 100vw;
+    @media (max-width: 800px) {
+      grid-template-columns: 0 100%;
+    }
+  }
+  .spotify__footer{
+    z-index: 1;
+    @media (max-width: 800px) {
+      z-index: 0;
     }
   }
 `;

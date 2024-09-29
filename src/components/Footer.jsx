@@ -77,7 +77,7 @@ const Container = styled.div`
     display: flex;
     justify-content: space-around;
     align-items: flex-end;
-    font-size: 0.8rem;
+    font-size: 0.7rem;
     position: absolute;
     bottom: 0rem;
     width: 98vw;
@@ -94,7 +94,7 @@ const Container = styled.div`
         padding: 0 0.5rem;
       }
     }
-    @media (max-width: 768px) {
+    @media (max-width: 800px) {
       position: absolute;
       bottom: 0rem;
       background: #181818;
@@ -102,14 +102,14 @@ const Container = styled.div`
       flex-direction: row;
       display: flex;
       align-items: center;
-      width: 100vw;
+      width: 100%;
       justify-content: space-evenly;
     }
     @media (max-width: 443px) {
       font-size: 0.5rem;
     }
   }
-  @media (max-width: 768px) {
+  @media (max-width: 800px) {
     padding: 0;
   }
 `;
