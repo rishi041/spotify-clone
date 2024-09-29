@@ -8,7 +8,6 @@ export default function Footer() {
   return (
     <Container>
       <MusicPlayer />
-
       <div className="copyrightContainer">
         <div div className="footerCopywright">
           <div>Designed and Developed by Rushikesh Ganorkar</div>
@@ -69,9 +68,8 @@ const Container = styled.div`
   width: 100%;
   background-color: #181818;
   border-top: 1px solid #282828;
-  align-items: center;
-  justify-content: center;
   padding: 0 1rem;
+  margin-bottom: 2rem;
   .copyrightContainer {
     color: white;
     display: flex;

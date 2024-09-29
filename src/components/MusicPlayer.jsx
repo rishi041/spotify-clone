@@ -66,11 +66,11 @@ const PlayerApp = ({ data }) => {
             ) : (
               <div className="musicTitleDetails">
                 <div className="musicName">
-                  {data?.tracks[0].name}
+                  {truncateString(data?.tracks[0].name, 15)}
                 </div>
                 {data?.tracks[0].artists && (
                   <div className="musicNameArtists">
-                    by {data?.tracks[0].artists}
+                    by {truncateString(data?.tracks[0].artists, 10)}
                   </div>
                 )}
               </div>
@@ -99,17 +99,12 @@ const Container = styled.div`
     margin-bottom: 2rem;
     .musicInfo {
       display: flex;
-      justify-content: space-evenly;
+      justify-content: space-between;
       align-items: center;
       .musicTitle {
         display: flex;
         align-items: flex-start;
-        width: calc(100vw - 50vw);
-        @media (max-width: 443px) {
-          img{
-            display: none;
-          }
-        }
+        width: calc(100vw - 60vw);
         .musicTitleDetails{
           display: flex;
           height: 2.5rem;
@@ -134,7 +129,15 @@ const Container = styled.div`
               margin-left: 0;
             }
           }
-        }  
+        }
+        @media (max-width: 800px) {
+          width: calc(100vw - 75vw);
+        } 
+        @media (max-width: 443px) {
+          img{
+            display: none;
+          }
+        } 
       }
 
       .musicControls {
@@ -152,9 +155,6 @@ const Container = styled.div`
         .pausePlayIcons {
           margin-top: 0.9rem;
           width: 40px;
-        }
-        @media (max-width: 800px) {
-          width: 60%;
         }
       }
 

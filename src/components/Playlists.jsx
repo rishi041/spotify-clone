@@ -83,6 +83,7 @@ const Container = styled.div`
   overflow: hidden;
   .sideBarTextContainer {
     .sideBarText {
+      width: 6rem;
       display: flex;
       justify-content: flex-start;
       font-weight: 700;

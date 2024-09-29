@@ -1,147 +1,158 @@
 import styled from "styled-components";
 import { AiFillClockCircle } from "react-icons/ai";
 import {
-    playTrackRapid,
+  playTrackRapid,
 } from "../services/BodyServices";
 import { useDispatch, useSelector } from "react-redux";
 
 // eslint-disable-next-line react/prop-types
 export default function SearchPage({ navBackground: headerBackground }) {
-    const searchPlaylistRapid = useSelector((state) => state.spotifyData.searchPlaylistRapid)
-    const dispatch = useDispatch()
+  const searchPlaylistRapid = useSelector((state) => state.spotifyData.searchPlaylistRapid)
+  const dispatch = useDispatch()
 
-    const msToMinutesAndSeconds = (ms) => {
-        var minutes = Math.floor(ms / 60000);
-        var seconds = ((ms % 60000) / 1000).toFixed(0);
-        return minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
-    };
-    return (
-        <Container headerBackground={headerBackground}>
-            {searchPlaylistRapid.tracks?.length > 0 ? (
-                <>
-                    <div className="playlist">
+  const msToMinutesAndSeconds = (ms) => {
+    var minutes = Math.floor(ms / 60000);
+    var seconds = ((ms % 60000) / 1000).toFixed(0);
+    return minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+  };
+  return (
+    <Container headerBackground={headerBackground}>
+      {searchPlaylistRapid.tracks?.length > 0 ? (
+        <>
+          <div className="playlist">
+            <div className="image">
+            </div>
+            <div className="details">
+              <span className="type">Search Songs</span>
+            </div>
+          </div>
+          <div className="list">
+            <div className="header-row">
+              <div className="col">
+                <span>#</span>
+              </div>
+              <div className="col">
+                <span>TITLE</span>
+              </div>
+              <div className="col albumName">
+                <span>ALBUM</span>
+              </div>
+              <div className="col">
+                <span>
+                  <AiFillClockCircle />
+                </span>
+              </div>
+            </div>
+
+            <div className="tracks">
+              {searchPlaylistRapid.tracks.map(
+                (
+                  {
+                    data,
+                    id = data.id,
+                    name = data.name,
+                    artists = data.artists,
+                    trackImage,
+                    preview_url,
+                    context_uri,
+                    album = data.albumOfTrack,
+                    uri = data.uri,
+                    duration_ms = data.duration.totalMilliseconds,
+                  },
+                  index,
+                ) => {
+                  return (
+                    <div
+                      className="row"
+                      key={id}
+                      onClick={() => {
+                        playTrackRapid(
+                          dispatch,
+                          id,
+                          name,
+                          (artists = [
+                            `${artists.items[0].profile.name}`,
+                            "",
+                          ]),
+                          (trackImage = album.coverArt.sources[1].url),
+                          (context_uri = uri),
+                        )
+                      }}
+                    >
+                      <div className="col">
+                        <span>{index + 1}</span>
+                      </div>
+                      <div className="col detail">
                         <div className="image">
+                          <img
+                            src={album.coverArt.sources[1].url}
+                            alt="track"
+                          />
                         </div>
-                        <div className="details">
-                            <span className="type">Search Songs</span>
+                        <div className="info">
+                          <span className="name">{name}</span>
+                          <span className="artistsName">{artists.items[0].profile.name}</span>
                         </div>
+                      </div>
+                      <div className="col albumName">
+                        <span>{album.name}</span>
+                      </div>
+                      <div className="col">
+                        <span>{msToMinutesAndSeconds(duration_ms)}</span>
+                      </div>
                     </div>
-                    <div className="list">
-                        <div className="header-row">
-                            <div className="col">
-                                <span>#</span>
-                            </div>
-                            <div className="col">
-                                <span>TITLE</span>
-                            </div>
-                            <div className="col">
-                                <span>ALBUM</span>
-                            </div>
-                            <div className="col">
-                                <span>
-                                    <AiFillClockCircle />
-                                </span>
-                            </div>
-                        </div>
+                  );
+                },
+              )}
+            </div>
 
-                        <div className="tracks">
-                            {searchPlaylistRapid.tracks.map(
-                                (
-                                    {
-                                        data,
-                                        id = data.id,
-                                        name = data.name,
-                                        artists = data.artists,
-                                        trackImage,
-                                        preview_url,
-                                        context_uri,
-                                        album = data.albumOfTrack,
-                                        uri = data.uri,
-                                        duration_ms = data.duration.totalMilliseconds,
-                                    },
-                                    index,
-                                ) => {
-                                    return (
-                                        <div
-                                            className="row"
-                                            key={id}
-                                            onClick={() => {
-                                                playTrackRapid(
-                                                    dispatch,
-                                                    id,
-                                                    name,
-                                                    (artists = [
-                                                        `${artists.items[0].profile.name}`,
-                                                        "",
-                                                    ]),
-                                                    (trackImage = album.coverArt.sources[1].url),
-                                                    (context_uri = uri),
-                                                )
-                                            }}
-                                        >
-                                            <div className="col">
-                                                <span>{index + 1}</span>
-                                            </div>
-                                            <div className="col detail">
-                                                <div className="image">
-                                                    <img
-                                                        src={album.coverArt.sources[1].url}
-                                                        alt="track"
-                                                    />
-                                                </div>
-                                                <div className="info">
-                                                    <span className="name">{name}</span>
-                                                    <span className="artistsName">{artists.items[0].profile.name}</span>
-                                                </div>
-                                            </div>
-                                            <div className="col">
-                                                <span>{album.name}</span>
-                                            </div>
-                                            <div className="col">
-                                                <span>{msToMinutesAndSeconds(duration_ms)}</span>
-                                            </div>
-                                        </div>
-                                    );
-                                },
-                            )}
-                        </div>
-
-                    </div>
-                </>
-            ) : <center style={{
-                color: 'white',
-                display: 'flex',
-                height: '60vh',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontWeight: '700',
-                fontSize: '1.5rem'
-            }}> Song stuck in your head? Just type to search... </center>
-            }
-        </Container >
-    );
+          </div>
+        </>
+      ) : <center style={{
+        color: 'white',
+        display: 'flex',
+        height: '60vh',
+        padding: '0.7rem',
+        alignItems: 'center',
+        justifyContent: 'center',
+        fontWeight: '700',
+        fontSize: '1.5rem'
+      }}> Song stuck in your head? Just type to search... </center>
+      }
+    </Container >
+  );
 }
 
 const Container = styled.div`
   .playlist {
-    margin: 0 1rem;
+    margin: 0 2rem;
     display: flex;
     align-items: center;
     gap: 2rem;
+    @media (max-width: 800px) {
+      gap: 0.5rem;
+    }
     .image {
       img {
         height: 15rem;
         box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;
+        @media (max-width: 800px) {
+          width: 7rem;
+          height: 7rem;
+        }
       }
     }
     .details {
       display: flex;
       flex-direction: column;
-      gap: 1rem;
+      gap: 0.3rem;
       color: #e0dede;
       .title {
         color: white;
-        font-size: 4rem;
+        font-size: 3rem;
+        @media (max-width: 443px) {
+          font-size: 2rem; 
+        }
       }
     }
   }
@@ -156,7 +167,13 @@ const Container = styled.div`
       padding: 1rem 3rem;
       transition: 0.3s ease-in-out;
       background-color: ${({ headerBackground }) =>
-        headerBackground ? "#000000dc" : "none"};
+    headerBackground ? "#000000dc" : "none"};
+      @media (max-width: 443px) {
+        grid-template-columns: 0.3fr 3fr 0.1fr 0.1fr;
+        .albumName {
+          display: none;
+        }
+      }
     }
     .tracks {
       margin: 0 1rem;
@@ -166,7 +183,7 @@ const Container = styled.div`
       .row {
         padding: 0.5rem 1rem;
         display: grid;
-        grid-template-columns: 0.3fr 3.1fr 2fr 0.1fr;
+        grid-template-columns: 0.3fr 3fr 2fr 0.1fr;
         &:hover {
           background-color: rgba(0, 0, 0, 0.7);
           cursor: pointer;
@@ -193,6 +210,12 @@ const Container = styled.div`
             .artistsName{
               font-size: 0.7rem;
             }
+          }
+        }
+        @media (max-width: 443px) {
+          grid-template-columns: 0.3fr 3fr 0.1fr 0.1fr;
+          .albumName{
+            display: none;
           }
         }
       }
