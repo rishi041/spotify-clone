@@ -30,42 +30,30 @@ export default function Playlists() {
           <div className="sideBarIcon">
             <GoHomeFill />
           </div>
-          <div>
-            <strong
-              onClick={() => {
-                navigate("/");
-              }}
-            >
-              Home
-            </strong>
+          <div onClick={() => {
+            navigate("/");
+          }}>
+            Home
           </div>
         </div>
         <div className="sideBarText">
           <div className="sideBarIcon">
             <IoSearch />
           </div>
-          <div>
-            <strong
-              onClick={() => {
-                navigate("/search");
-              }}
-            >
-              Search
-            </strong>
+          <div onClick={() => {
+            navigate("/search");
+          }}>
+            Search
           </div>
         </div>
         <div className="sideBarText">
           <div className="sideBarIcon">
             <BiLibrary />
           </div>
-          <div>
-            <strong
-              onClick={() => {
-                navigate("/playlists");
-              }}
-            >
-              Your Playlist
-            </strong>
+          <div onClick={() => {
+            navigate("/playlists");
+          }}>
+            Your Playlist
           </div>
         </div>
       </div>
@@ -96,32 +84,31 @@ const Container = styled.div`
   .sideBarTextContainer {
     .sideBarText {
       display: flex;
-      align-items: center;
       justify-content: flex-start;
-      font-size: 1rem;
-      padding: 0.4rem 0.4rem 0 0.5rem;
-      .sideBarIcon {
-        font-size: 1.5rem;
-        padding: 0 0.3rem 0 0;
-      }
-    }
-    .sideBarText {
+      font-weight: 700;
+      font-size: 0.875rem;
+      padding: 0.2rem 0.4rem;
+      align-items: center;
       transition: 0.3s ease-in-out;
       cursor: pointer;
+      .sideBarIcon {
+        font-size: 1.3rem;
+        padding: 0 0.3rem 0 0;
+      }
       &:hover {
         color: white;
       }
-      @media (max-width: 768px) {
+      @media (max-width: 800px) {
         flex-direction: column;
         font-size: 0.8rem;
       }
     }
-    @media (max-width: 768px) {
+    @media (max-width: 800px) {
       display: flex;
       flex-direction: row;
       position: absolute;
       bottom: 1.2rem;
-      width: 100vw;
+      width: 100%;
       justify-content: space-evenly;
       z-index: 1;
       background: #181818;

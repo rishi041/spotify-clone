@@ -22,8 +22,6 @@ const Container = styled.div`
   color: #b3b3b3;
   display: flex;
   flex-direction: column;
-  height: 100%;
-  width: 100%;
   .top__links {
     display: flex;
     flex-direction: column;
@@ -31,8 +29,9 @@ const Container = styled.div`
       font-size: 1.5rem;
       font-weight: 900;
       color: white;
-      text-align: center;
+      text-align: start;
       margin: 1rem 0;
+      padding: 0 0.4rem;
       img {
         max-inline-size: 80%;
         block-size: auto;
@@ -55,7 +54,7 @@ const Container = styled.div`
       }
     }
   }
-  @media (max-width: 768px) {
+  @media (max-width: 800px) {
     width: 0;
   }
 `;

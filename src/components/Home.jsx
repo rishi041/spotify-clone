@@ -112,7 +112,7 @@ const Container = styled.div`
     padding: 1rem 1rem;
     .songContainer {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
       grid-gap: 1rem;
       .songCard {
         color: #fff;
@@ -122,21 +122,21 @@ const Container = styled.div`
         flex-wrap: wrap;
         flex-direction: column;
         align-content: space-around;
-        padding: 1rem 0;
+        padding: 1rem 25px;
         &:hover {
           background-color: rgba(0, 0, 0, 0.5);
         }
         .songCardImage {
           position: relative;
           img {
-            width: 12rem;
-            height: 12rem;
+            width: 8rem;
+            height: 8rem;
             object-fit: contain;
             border-radius: 0.8rem;
             z-index: -1;
-            @media (max-width: 768px) {
-              width: 8rem;
-              height: 8rem;
+            @media (max-width: 800px) {
+              width: 6.5rem;
+              height: 6.5rem;
             }
           }
           .songCardPlayIcon {
@@ -145,7 +145,7 @@ const Container = styled.div`
             bottom: -0.7rem;
             right: -0.2rem;
             transform: translate(-0.1rem, -0.1rem);
-            font-size: 4rem;
+            font-size: 3rem;
             cursor: pointer;
             opacity: 1;
             animation: fadeIn 0.3s ease-in;
@@ -157,25 +157,28 @@ const Container = styled.div`
                 opacity: 1;
               }
             }
-            @media (max-width: 768px) {
+            @media (max-width: 800px) {
               font-size: 2.5rem;
             }
           }
         }
         .songCardName {
-          margin: 10px 0;
+          margin: 2px 0;
+          font-weight: 600;
         }
         .songCardArtistName {
           margin: 0;
-           @media (max-width: 768px) {
+          font-size: 0.7rem;
+           @media (max-width: 800px) {
            display:none;
            }
         }
-        @media (max-width: 768px) {
+        @media (max-width: 800px) {
           align-items: center;
+          padding: 1rem 13px;
         }
       }
-      @media (max-width: 768px) {
+      @media (max-width: 800px) {
         grid-template-columns: repeat(auto-fit, minmax(7.5rem, 1fr));
       }
     }

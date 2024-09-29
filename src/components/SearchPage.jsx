@@ -6,7 +6,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 
 // eslint-disable-next-line react/prop-types
-export default function SearchPage({ headerBackground }) {
+export default function SearchPage({ navBackground: headerBackground }) {
     const searchPlaylistRapid = useSelector((state) => state.spotifyData.searchPlaylistRapid)
     const dispatch = useDispatch()
 
@@ -91,7 +91,7 @@ export default function SearchPage({ headerBackground }) {
                                                 </div>
                                                 <div className="info">
                                                     <span className="name">{name}</span>
-                                                    <span>{artists.items[0].profile.name}</span>
+                                                    <span className="artistsName">{artists.items[0].profile.name}</span>
                                                 </div>
                                             </div>
                                             <div className="col">
@@ -114,8 +114,9 @@ export default function SearchPage({ headerBackground }) {
                 height: '60vh',
                 alignItems: 'center',
                 justifyContent: 'center',
+                fontWeight: '700',
                 fontSize: '1.5rem'
-            }}> <strong> Song stuck in your head? Just type to search... </strong></center>
+            }}> Song stuck in your head? Just type to search... </center>
             }
         </Container >
     );
@@ -123,7 +124,7 @@ export default function SearchPage({ headerBackground }) {
 
 const Container = styled.div`
   .playlist {
-    margin: 0 2rem;
+    margin: 0 1rem;
     display: flex;
     align-items: center;
     gap: 2rem;
@@ -158,7 +159,7 @@ const Container = styled.div`
         headerBackground ? "#000000dc" : "none"};
     }
     .tracks {
-      margin: 0 2rem;
+      margin: 0 1rem;
       display: flex;
       flex-direction: column;
       margin-bottom: 5rem;
@@ -174,6 +175,7 @@ const Container = styled.div`
           display: flex;
           align-items: center;
           color: #dddcdc;
+          font-size: 0.875rem;
           img {
             height: 40px;
             width: 40px;
@@ -185,6 +187,12 @@ const Container = styled.div`
           .info {
             display: flex;
             flex-direction: column;
+            .name {
+              font-weight: 600;
+            }
+            .artistsName{
+              font-size: 0.7rem;
+            }
           }
         }
       }
