@@ -42,20 +42,8 @@ export default function Navbar({ navBackground }) {
           <>
             {
               location.pathname == "/" ?
-                (<h1 style={{
-                  color: 'white',
-                  display: 'flex',
-                  alignItems: 'center',
-                  width: '8.5rem',
-                  justifyContent: 'space-between'
-                }}><GoHomeFill />{' '} Home</h1>
-                ) : (<h1 style={{
-                  color: 'white',
-                  display: 'flex',
-                  alignItems: 'center',
-                  width: '14.2rem',
-                  justifyContent: 'space-between'
-                }}><BiLibrary />{' '} Your Playlist</h1>)
+                (<h1 className="navBarHeader" style={{ width: '8.5rem' }}><GoHomeFill />{' '} Home</h1>
+                ) : (<h1 className="navBarHeader"><BiLibrary />{' '} Your Playlist</h1>)
             }
           </>
         }
@@ -85,6 +73,16 @@ const Container = styled.div`
   .searchMusicContainer {
     position: relative;
     width: 50vw;
+    .navBarHeader{
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 14.2rem;
+      @media (max-width: 443px) {
+        width: 13rem;
+      }
+    }
     .search__bar {
       background-color: white;
       padding: 0.4rem 1rem;
@@ -130,7 +128,6 @@ const Container = styled.div`
       }
     }
   }
-
   .avatar {
     background-color: black;
     padding: 0.3rem 0.4rem;
@@ -155,5 +152,8 @@ const Container = styled.div`
         color: #c7c5c5;
       }
     }
+  }
+  @media (max-width: 443px) {
+    padding: 2rem 1rem;
   }
 `;

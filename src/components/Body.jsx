@@ -53,7 +53,7 @@ export default function Body({ headerBackground }) {
               <div className="col">
                 <span>TITLE</span>
               </div>
-              <div className="col">
+              <div className="col albumName">
                 <span>ALBUM</span>
               </div>
               <div className="col">
@@ -109,7 +109,7 @@ export default function Body({ headerBackground }) {
                           <span className="artistsName">{artists}</span>
                         </div>
                       </div>
-                      <div className="col">
+                      <div className="col albumName">
                         <span>{album}</span>
                       </div>
                       <div className="col">
@@ -134,6 +134,9 @@ const Container = styled.div`
     display: flex;
     align-items: center;
     gap: 2rem;
+    @media (max-width: 800px) {
+      gap: 0.5rem;
+    }
     .image {
       img {
         height: 15rem;
@@ -147,11 +150,14 @@ const Container = styled.div`
     .details {
       display: flex;
       flex-direction: column;
-      gap: 1rem;
+      gap: 0.3rem;
       color: #e0dede;
       .title {
         color: white;
         font-size: 3rem;
+        @media (max-width: 443px) {
+          font-size: 2rem; 
+        }
       }
     }
   }
@@ -167,6 +173,12 @@ const Container = styled.div`
       transition: 0.3s ease-in-out;
       background-color: ${({ headerBackground }) =>
     headerBackground ? "#000000dc" : "none"};
+      @media (max-width: 443px) {
+        grid-template-columns: 0.3fr 3fr 0.1fr 0.1fr;
+        .albumName {
+          display: none;
+        }
+      }
     }
     .tracks {
       margin: 0 1rem;
@@ -176,7 +188,7 @@ const Container = styled.div`
       .row {
         padding: 0.5rem 1rem;
         display: grid;
-        grid-template-columns: 0.3fr 3.1fr 2fr 0.1fr;
+        grid-template-columns: 0.3fr 3fr 2fr 0.1fr;
         &:hover {
           background-color: rgba(0, 0, 0, 0.7);
           cursor: pointer;
@@ -203,6 +215,12 @@ const Container = styled.div`
             .artistsName{
               font-size: 0.7rem;
             }
+          }
+        }
+        @media (max-width: 443px) {
+          grid-template-columns: 0.3fr 3fr 0.1fr 0.1fr;
+          .albumName{
+            display: none;
           }
         }
       }

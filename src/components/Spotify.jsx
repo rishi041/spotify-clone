@@ -67,7 +67,7 @@ const Container = styled.div`
   max-height: 100vh;
   overflow: hidden;
   display: grid;
-  grid-template-rows: calc(100vh - 15vh) calc(100vh - 85vh);
+  grid-template-rows: calc(100vh - 16vh) calc(100vh - 84vh);
   .spotify__body {
     display: grid;
     grid-template-columns: calc(100vw - 85vw) calc(100vw - 15vw);
