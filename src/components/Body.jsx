@@ -106,7 +106,7 @@ export default function Body({ headerBackground }) {
                         </div>
                         <div className="info">
                           <span className="name">{name}</span>
-                          <span>{artists}</span>
+                          <span className="artistsName">{artists}</span>
                         </div>
                       </div>
                       <div className="col">
@@ -138,6 +138,10 @@ const Container = styled.div`
       img {
         height: 15rem;
         box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;
+        @media (max-width: 800px) {
+          width: 7rem;
+          height: 7rem;
+        }
       }
     }
     .details {
@@ -147,7 +151,7 @@ const Container = styled.div`
       color: #e0dede;
       .title {
         color: white;
-        font-size: 4rem;
+        font-size: 3rem;
       }
     }
   }
@@ -165,7 +169,7 @@ const Container = styled.div`
     headerBackground ? "#000000dc" : "none"};
     }
     .tracks {
-      margin: 0 2rem;
+      margin: 0 1rem;
       display: flex;
       flex-direction: column;
       margin-bottom: 5rem;
@@ -181,6 +185,7 @@ const Container = styled.div`
           display: flex;
           align-items: center;
           color: #dddcdc;
+          font-size: 0.875rem;
           img {
             height: 40px;
             width: 40px;
@@ -192,6 +197,12 @@ const Container = styled.div`
           .info {
             display: flex;
             flex-direction: column;
+            .name {
+              font-weight: 600;
+            }
+            .artistsName{
+              font-size: 0.7rem;
+            }
           }
         }
       }

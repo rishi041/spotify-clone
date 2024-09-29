@@ -99,6 +99,19 @@ const Container = styled.div`
         &:focus {
           outline: none;
         }
+        
+        /* For WebKit browsers */
+        &:-webkit-autofill {
+          background-color: white !important;
+          -webkit-box-shadow: 0 0 0 1000px white inset !important;
+          color: black !important;
+        }
+      
+        /* For Firefox */
+        &::autofill {
+          background-color: white !important;
+          color: black !important;
+        }
       }
     }
     .searchMusicInfo {

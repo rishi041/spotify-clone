@@ -53,11 +53,9 @@ const PlayerApp = ({ data }) => {
           <div className="musicTitle">
             <img src={playlist[currentTrack].image} />
             {currentPlaying ? (
-              <div>
+              <div className="musicTitleDetails">
                 <div className="musicName">
-                  <strong>
-                    {truncateString(playlist[currentTrack].name, 15)}
-                  </strong>
+                  {truncateString(playlist[currentTrack].name, 15)}
                 </div>
                 {playlist[currentTrack].artists && (
                   <div className="musicNameArtists">
@@ -66,9 +64,9 @@ const PlayerApp = ({ data }) => {
                 )}
               </div>
             ) : (
-              <div>
+              <div className="musicTitleDetails">
                 <div className="musicName">
-                  <strong>{data?.tracks[0].name}</strong>
+                  {data?.tracks[0].name}
                 </div>
                 {data?.tracks[0].artists && (
                   <div className="musicNameArtists">
@@ -105,26 +103,45 @@ const Container = styled.div`
       align-items: center;
       .musicTitle {
         display: flex;
-        align-items: center;
-        .musicName {
-          margin-left: 1rem;
-          font-size: 1rem;
-        }
-        .musicNameArtists {
-          margin-left: 1rem;
-          font-size: 1rem;
-          @media (max-width: 768px) {
+        align-items: flex-start;
+        width: calc(100vw - 50vw);
+        @media (max-width: 443px) {
+          img{
             display: none;
           }
         }
-        width: 20%;
+        .musicTitleDetails{
+          display: flex;
+          height: 2.5rem;
+          width: 100%;
+          flex-direction: column;
+          justify-content: space-evenly;
+          .musicName {
+            margin-left: 1rem;
+            font-weight: 600;
+            font-size: 0.875rem;
+            @media (max-width: 443px) {
+              margin-left: 0;
+            }
+          }
+          .musicNameArtists {
+            margin-left: 1rem;
+            font-size: 0.7rem;
+            @media (max-width: 800px) {
+              display: none;
+            }
+            @media (max-width: 443px) {
+              margin-left: 0;
+            }
+          }
+        }  
       }
 
       .musicControls {
         display: flex;
         flex-direction: column;
         align-items: center;
-        width: 80%;
+        width: 100%;
         .progressBar {
           display: flex;
           align-items: baseline;
@@ -136,7 +153,7 @@ const Container = styled.div`
           margin-top: 0.9rem;
           width: 40px;
         }
-        @media (max-width: 768px) {
+        @media (max-width: 800px) {
           width: 60%;
         }
       }
@@ -171,6 +188,9 @@ const Container = styled.div`
         border-radius: 0;
         transition: all 0.3s ease;
       }
+      @media (max-width: 800px) {
+        margin: 0 15px;
+      }
     }
   }
 
@@ -196,10 +216,10 @@ const Container = styled.div`
     color: var(--rhap-bar-color);
     font-family: var(--rhap-font-family);
   }
-  @media (max-width: 768px) {
+  @media (max-width: 800px) {
     position: absolute;
     bottom: 1rem;
     background: #181818;
-    width: 97vw;
+    width: 100%;
   }
 `;
