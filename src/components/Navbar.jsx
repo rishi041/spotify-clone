@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { FaSearch } from "react-icons/fa";
 import { CgProfile } from "react-icons/cg";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { getSearchRapidData } from "../services/SearchServices";
 import { useLocation } from "react-router-dom";
 import { GoHomeFill } from "react-icons/go";
