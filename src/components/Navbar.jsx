@@ -15,23 +15,11 @@ export default function Navbar({ navBackground }) {
   const [search, setSearch] = useState("");
   const location = useLocation();
 
-  const useDebounce = (effect, dependencies, delay) => {
-    const callback = useCallback(effect, dependencies);
-    useEffect(() => {
-      const timeout = setTimeout(callback, delay);
-      return () => clearTimeout(timeout);
-    }, [callback, delay]);
-  };
-
-  useDebounce(
-    () => {
-      if (search !== "") {
-        getSearchRapidData(dispatch, search)
-      }
-    },
-    [search],
-    800,
-  );
+  useEffect(() => {
+    if (search !== "") {
+      getSearchRapidData(dispatch, search);
+    }
+  }, [search, dispatch]);
 
   const handleSearch = (e) => setSearch(e.target.value);
 
