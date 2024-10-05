@@ -45,6 +45,12 @@ export default function Navbar({ navBackground }) {
                 (<h1 className="navBarHeader" style={{ width: '8.5rem' }}><GoHomeFill />{' '} Home</h1>
                 ) : (<h1 className="navBarHeader"><BiLibrary />{' '} Your Playlist</h1>)
             }
+            <div className="logo">
+              <img
+                src="https://storage.googleapis.com/pr-newsroom-wp/1/2018/11/Spotify_Logo_RGB_White.png"
+                alt="spotify"
+              />
+            </div>
           </>
         }
       </div>
@@ -73,6 +79,22 @@ const Container = styled.div`
   .searchMusicContainer {
     position: relative;
     width: 50vw;
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: white;
+      text-align: start;
+      margin: 1rem 0;
+      padding: 0 0.4rem;
+      display: none;
+      img {
+        max-inline-size: calc(100% - 20vw);
+        block-size: auto;
+      }
+      @media (max-width: 800px) {
+        display: initial;
+      }
+    }
     .navBarHeader{
       color: white;
       display: flex;
@@ -81,6 +103,9 @@ const Container = styled.div`
       width: 14.2rem;
       @media (max-width: 443px) {
         width: 13rem;
+      }
+      @media (max-width: 800px) {
+        display: none;        
       }
     }
     .search__bar {
