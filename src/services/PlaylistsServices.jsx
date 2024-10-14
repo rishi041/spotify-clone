@@ -1,5 +1,5 @@
 import axios from "axios";
-import { SET_PLAYLISTS_RAPID } from '../utils/SpotifyReducer';
+import { SET_PLAYLISTS_RAPID } from '../store/spotifySlice';
 
 const X_RapidAPI_Key = import.meta.env.VITE_X_RAPID_API_KEY;
 const X_RapidAPI_Host = import.meta.env.VITE_X_RAPID_API_HOST;
