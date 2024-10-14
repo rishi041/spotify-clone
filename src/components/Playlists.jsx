@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import styled from "styled-components";
-import { SET_PLAYLIST_ID, SET_SEARCH_RAPID } from "../utils/SpotifyReducer";
+import { SET_PLAYLIST_ID, SET_SEARCH_RAPID } from "../store/spotifySlice";
 import { useDispatch, useSelector } from "react-redux";
 import { getPlaylistDataRapid } from "../services/PlaylistsServices";
 import { useNavigate } from "react-router-dom";

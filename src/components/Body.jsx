@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { AiFillClockCircle } from "react-icons/ai";
-import { SET_PLAYING } from "../utils/SpotifyReducer";
+import { SET_PLAYING } from "../store/spotifySlice";
 import {
   getInitialPlaylistRapid,
 } from "../services/BodyServices";

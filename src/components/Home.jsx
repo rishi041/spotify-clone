@@ -2,7 +2,7 @@ import styled from "styled-components";
 import {
   getInitialPlaylistRapid,
 } from "../services/BodyServices";
-import { SET_PLAYING } from "../utils/SpotifyReducer";
+import { SET_PLAYING } from "../store/spotifySlice";
 import { useEffect, useState } from "react";
 import { IoPlayCircle } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
