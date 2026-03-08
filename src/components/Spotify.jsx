@@ -65,6 +65,7 @@ export default function Spotify() {
 const Container = styled.div`
   width: 100vw;
   height: 100vh;
+  height: 100dvh;
   overflow: hidden;
   display: grid;
   grid-template-rows: 1fr 90px;
