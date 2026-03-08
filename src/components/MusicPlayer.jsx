@@ -1,12 +1,17 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
 import AudioPlayer, { RHAP_UI } from "react-h5-audio-player";
 import "react-h5-audio-player/lib/styles.css";
+import { truncateString } from "../utils/helpers";
 
 export default function MusicPlayer() {
-  const selectedPlaylistRapid = useSelector((state) => state.spotifyData.selectedPlaylistRapid)
-  const currentPlaying = useSelector((state) => state.spotifyData.currentPlaying)
+  const selectedPlaylistRapid = useSelector(
+    (state) => state.spotifyData.selectedPlaylistRapid,
+  );
+  const currentPlaying = useSelector(
+    (state) => state.spotifyData.currentPlaying,
+  );
   const [data, setData] = useState(selectedPlaylistRapid);
 
   useEffect(() => {
@@ -17,192 +22,118 @@ export default function MusicPlayer() {
     }
   }, [currentPlaying, selectedPlaylistRapid]);
 
+  const trackInfo = currentPlaying
+    ? {
+        name: currentPlaying.name,
+        artists: currentPlaying.artists,
+        image: currentPlaying.trackImage,
+        src: currentPlaying.preview_url,
+      }
+    : data?.tracks?.[0]
+      ? {
+          name: data.tracks[0].name,
+          artists: data.tracks[0].artists,
+          image: data.trackImage,
+          src: data.preview_url,
+        }
+      : { name: "", artists: [], image: "", src: "" };
+
+  const artistString = Array.isArray(trackInfo.artists)
+    ? trackInfo.artists.join(", ")
+    : String(trackInfo.artists || "");
+
   return (
     <Container>
-      <PlayerApp data={data} />
+      <div className="musicTitle">
+        {trackInfo.image && <img src={trackInfo.image} alt="" />}
+        <div className="musicTitleDetails">
+          <div className="musicName">{truncateString(trackInfo.name, 20)}</div>
+          {artistString && (
+            <div className="musicNameArtists">
+              by {truncateString(artistString, 30)}
+            </div>
+          )}
+        </div>
+      </div>
+
+      <div className="musicControls">
+        <AudioPlayer
+          src={trackInfo.src}
+          customControlsSection={[
+            RHAP_UI.ADDITIONAL_CONTROLS,
+            RHAP_UI.MAIN_CONTROLS,
+            RHAP_UI.VOLUME_CONTROLS,
+          ]}
+          layout="stacked-reverse horizontal"
+        />
+      </div>
     </Container>
   );
 }
 
-const PlayerApp = ({ data }) => {
-  const currentPlaying = useSelector((state) => state.spotifyData.currentPlaying)
-  const playlist = [
-    {
-      src: data?.preview_url,
-      name: data?.name,
-      image: data?.trackImage,
-      artists: data?.artists,
-    },
-  ];
-  const [currentTrack, setTrackIndex] = useState(0);
+const Container = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  color: #fff;
+  gap: 12px;
 
-  function truncateString(inputString, maxLength) {
-    if (inputString) {
-      if (inputString?.length <= maxLength) {
-        return `${inputString}`;
-      } else {
-        return `${inputString?.substring(0, maxLength)}...`;
+  .musicTitle {
+    display: flex;
+    align-items: center;
+    min-width: 220px;
+    max-width: 280px;
+    gap: 12px;
+    flex-shrink: 0;
+    img {
+      width: 52px;
+      height: 52px;
+      border-radius: 4px;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+    .musicTitleDetails {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 3px;
+      overflow: hidden;
+      .musicName {
+        font-weight: 600;
+        font-size: 0.85rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .musicNameArtists {
+        font-size: 0.7rem;
+        color: #b3b3b3;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
     }
   }
 
-  return (
-    <Container>
-      <div className="musicContainer">
-        <div className="musicInfo">
-          <div className="musicTitle">
-            <img src={playlist[currentTrack].image} />
-            {currentPlaying ? (
-              <div className="musicTitleDetails">
-                <div className="musicName">
-                  {truncateString(playlist[currentTrack].name, 15)}
-                </div>
-                {playlist[currentTrack].artists && (
-                  <div className="musicNameArtists">
-                    by {truncateString(playlist[currentTrack].artists, 10)}
-                  </div>
-                )}
-              </div>
-            ) : (
-              <div className="musicTitleDetails">
-                <div className="musicName">
-                  {truncateString(data?.tracks[0].name, 15)}
-                </div>
-                {data?.tracks[0].artists && (
-                  <div className="musicNameArtists">
-                    by {truncateString(data?.tracks[0].artists, 10)}
-                  </div>
-                )}
-              </div>
-            )}
-          </div>
-          <div className="musicControls">
-            <AudioPlayer
-              src={playlist[currentTrack].src}
-              customControlsSection={[
-                RHAP_UI.ADDITIONAL_CONTROLS,
-                RHAP_UI.MAIN_CONTROLS,
-                RHAP_UI.VOLUME_CONTROLS,
-              ]}
-              layout="stacked-reverse horizontal"
-            />
-          </div>
-        </div>
-      </div>
-    </Container>
-  );
-};
+  .musicControls {
+    flex: 1;
+    min-width: 0;
+  }
 
-const Container = styled.div`
-  .musicContainer {
-    color: #fff;
-    margin-bottom: 2rem;
-    .musicInfo {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      .musicTitle {
-        display: flex;
-        align-items: flex-start;
-        width: calc(100vw - 60vw);
-        .musicTitleDetails{
-          display: flex;
-          height: 2.5rem;
-          width: 100%;
-          flex-direction: column;
-          justify-content: space-evenly;
-          .musicName {
-            margin-left: 1rem;
-            font-weight: 600;
-            font-size: 0.875rem;
-            @media (max-width: 443px) {
-              margin-left: 0;
-            }
-          }
-          .musicNameArtists {
-            margin-left: 1rem;
-            font-size: 0.7rem;
-            @media (max-width: 800px) {
-              display: none;
-            }
-            @media (max-width: 443px) {
-              margin-left: 0;
-            }
-          }
-        }
-        @media (max-width: 800px) {
-          width: calc(100vw - 75vw);
-        } 
-        @media (max-width: 443px) {
-          img{
-            display: none;
-          }
-        } 
-      }
+  .rhap_container {
+    background-color: transparent;
+    box-shadow: none;
+    padding: 0;
+  }
 
-      .musicControls {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width: 100%;
-        .progressBar {
-          display: flex;
-          align-items: baseline;
-          .progressNo {
-            padding: 0 10px;
-          }
-        }
-        .pausePlayIcons {
-          margin-top: 0.9rem;
-          width: 40px;
-        }
-      }
-
-      .soundControls {
-        width: 100px;
-      }
-
-      input[type="range"]::-webkit-slider-thumb {
-        -webkit-appearance: none;
-        appearance: none;
-        width: 16px;
-        height: 16px;
-        border-radius: 50%;
-        background: white;
-      }
-
-      input[type="range"] {
-        -webkit-appearance: none;
-        appearance: none;
-        background: #2c2929;
-      }
-
-      input:hover {
-        cursor: pointer;
-      }
-
-      #music-bar {
-        width: 340px;
-        margin-top: 1.5rem;
-        height: 2.5px;
-        border-radius: 0;
-        transition: all 0.3s ease;
-      }
-      @media (max-width: 800px) {
-        margin: 0 15px;
-      }
-    }
+  .rhap_main {
+    background-color: transparent;
   }
 
   .rhap_button,
   .rhap_volume-indicator,
   .rhap_progress-indicator {
     background-color: var(--rhap-theme-color);
-  }
-
-  .rhap_main,
-  .rhap_container {
-    background-color: var(--rhap-background-color);
   }
 
   .rhap_progress-filled {
@@ -216,10 +147,38 @@ const Container = styled.div`
     color: var(--rhap-bar-color);
     font-family: var(--rhap-font-family);
   }
+
+  /* Tablet */
   @media (max-width: 800px) {
-    position: absolute;
-    bottom: 1rem;
-    background: #181818;
-    width: 100%;
+    .musicTitle {
+      min-width: 140px;
+      max-width: 180px;
+      .musicNameArtists {
+        display: none;
+      }
+    }
+  }
+
+  /* Mobile */
+  @media (max-width: 443px) {
+    gap: 6px;
+    .musicTitle {
+      min-width: 100px;
+      max-width: 120px;
+      gap: 8px;
+      img {
+        width: 40px;
+        height: 40px;
+      }
+      .musicName {
+        font-size: 0.75rem;
+      }
+    }
+    .rhap_time {
+      font-size: 0.65rem;
+    }
+    .rhap_volume-controls {
+      display: none;
+    }
   }
 `;

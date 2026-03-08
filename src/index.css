@@ -1,11 +1,18 @@
+html,
+body,
+#root {
+  height: 100%;
+  background-color: #000;
+}
+
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu",
+    "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   --rhap-theme-color: rgb(255, 255, 255);
-  --rhap-background-color: #18181;
+  --rhap-background-color: #181818;
   --rhap-bar-color: #ffffff;
   --rhap-time-color: #333;
   --rhap-font-family: sans-serif;
