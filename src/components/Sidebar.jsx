@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import Playlists from "./Playlists";
+
 export default function Sidebar() {
   return (
     <Container>
@@ -9,7 +10,6 @@ export default function Sidebar() {
             src="https://storage.googleapis.com/pr-newsroom-wp/1/2018/11/Spotify_Logo_RGB_White.png"
             alt="spotify"
           />
-          {/* RDG Spotify Clone */}
         </div>
       </div>
       <Playlists />
@@ -22,6 +22,8 @@ const Container = styled.div`
   color: #b3b3b3;
   display: flex;
   flex-direction: column;
+  height: 100%;
+  overflow: hidden;
   .top__links {
     display: flex;
     flex-direction: column;
@@ -31,30 +33,15 @@ const Container = styled.div`
       color: white;
       text-align: start;
       margin: 1rem 0;
-      padding: 0 0.4rem;
+      padding: 0 0.8rem;
       img {
-        max-inline-size: 80%;
+        max-inline-size: 70%;
         block-size: auto;
-      }
-    }
-    ul {
-      list-style-type: none;
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      padding: 1rem;
-      li {
-        display: flex;
-        gap: 1rem;
-        cursor: pointer;
-        transition: 0.3s ease-in-out;
-        &:hover {
-          color: white;
-        }
       }
     }
   }
   @media (max-width: 800px) {
     width: 0;
+    overflow: visible;
   }
 `;

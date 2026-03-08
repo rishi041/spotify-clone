@@ -8,17 +8,18 @@ import { useLocation } from "react-router-dom";
 import { GoHomeFill } from "react-icons/go";
 import { BiLibrary } from "react-icons/bi";
 
-// eslint-disable-next-line react/prop-types
 export default function Navbar({ navBackground }) {
-  const userInfoRapid = useSelector((state) => state.spotifyData.userInfoRapid)
-  const dispatch = useDispatch()
+  const userInfoRapid = useSelector((state) => state.spotifyData.userInfoRapid);
+  const dispatch = useDispatch();
   const [search, setSearch] = useState("");
   const location = useLocation();
 
   useEffect(() => {
-    if (search !== "") {
+    if (search === "") return;
+    const timer = setTimeout(() => {
       getSearchRapidData(dispatch, search);
-    }
+    }, 400);
+    return () => clearTimeout(timer);
   }, [search, dispatch]);
 
   const handleSearch = (e) => setSearch(e.target.value);
@@ -26,7 +27,7 @@ export default function Navbar({ navBackground }) {
   return (
     <Container $navBackground={navBackground}>
       <div className="searchMusicContainer">
-        {location.pathname == "/search" ?
+        {location.pathname === "/search" ? (
           <div className="search__bar">
             <FaSearch />
             <input
@@ -38,13 +39,17 @@ export default function Navbar({ navBackground }) {
               placeholder="Artists, songs, or podcasts"
             />
           </div>
-          :
+        ) : (
           <>
-            {
-              location.pathname == "/" ?
-                (<h1 className="navBarHeader" style={{ width: '8.5rem' }}><GoHomeFill />{' '} Home</h1>
-                ) : (<h1 className="navBarHeader"><BiLibrary />{' '} Your Playlist</h1>)
-            }
+            {location.pathname === "/" ? (
+              <h1 className="navBarHeader" style={{ width: "8.5rem" }}>
+                <GoHomeFill /> Home
+              </h1>
+            ) : (
+              <h1 className="navBarHeader">
+                <BiLibrary /> Your Playlist
+              </h1>
+            )}
             <div className="logo">
               <img
                 src="https://storage.googleapis.com/pr-newsroom-wp/1/2018/11/Spotify_Logo_RGB_White.png"
@@ -52,7 +57,7 @@ export default function Navbar({ navBackground }) {
               />
             </div>
           </>
-        }
+        )}
       </div>
       <div className="avatar">
         <a href={userInfoRapid?.userUrl}>
@@ -68,8 +73,8 @@ const Container = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 2rem;
-  height: 15vh;
+  padding: 0 2rem;
+  height: 64px;
   position: sticky;
   z-index: 2;
   top: 0;
@@ -78,34 +83,32 @@ const Container = styled.div`
     props.$navBackground ? "rgba(0,0,0,0.7)" : "none"};
   .searchMusicContainer {
     position: relative;
-    width: 50vw;
+    flex: 1;
+    max-width: 60%;
     .logo {
       font-size: 1.5rem;
       font-weight: 900;
       color: white;
       text-align: start;
-      margin: 1rem 0;
-      padding: 0 0.4rem;
+      padding: 0;
       display: none;
       img {
-        max-inline-size: calc(100% - 20vw);
-        block-size: auto;
+        height: 28px;
+        width: auto;
       }
       @media (max-width: 800px) {
-        display: initial;
+        display: block;
       }
     }
-    .navBarHeader{
+    .navBarHeader {
       color: white;
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      width: 14.2rem;
-      @media (max-width: 443px) {
-        width: 13rem;
-      }
+      gap: 0.5rem;
+      font-size: 1.5rem;
+      white-space: nowrap;
       @media (max-width: 800px) {
-        display: none;        
+        display: none;
       }
     }
     .search__bar {
@@ -115,42 +118,31 @@ const Container = styled.div`
       display: flex;
       align-items: center;
       gap: 0.5rem;
+      max-width: 400px;
       input {
         border: none;
         height: 2rem;
         width: 100%;
+        font-size: 0.9rem;
         &:focus {
           outline: none;
         }
-        
-        /* For WebKit browsers */
         &:-webkit-autofill {
           background-color: white !important;
           -webkit-box-shadow: 0 0 0 1000px white inset !important;
           color: black !important;
         }
-      
-        /* For Firefox */
         &::autofill {
           background-color: white !important;
           color: black !important;
         }
       }
-    }
-    .searchMusicInfo {
-      position: absolute;
-      top: 2.8rem;
-      border-radius: 0 0 1rem 1rem;
-      height: 20rem;
-      overflow-y: scroll;
-      background-color: white;
-      .musicList {
-        display: flex;
-        padding: 0.4rem 1rem;
-        width: 50vw;
-        align-items: center;
-        justify-content: space-between;
+      @media (max-width: 443px) {
+        max-width: 100%;
       }
+    }
+    @media (max-width: 443px) {
+      max-width: 70%;
     }
   }
   .avatar {
@@ -161,6 +153,7 @@ const Container = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-shrink: 0;
     a {
       display: flex;
       justify-content: center;
@@ -169,6 +162,8 @@ const Container = styled.div`
       text-decoration: none;
       color: white;
       font-weight: bold;
+      font-size: 0.85rem;
+      white-space: nowrap;
       svg {
         font-size: 1.3rem;
         background-color: #282828;
@@ -176,9 +171,19 @@ const Container = styled.div`
         border-radius: 1rem;
         color: #c7c5c5;
       }
+      span {
+        @media (max-width: 443px) {
+          display: none;
+        }
+      }
     }
   }
+  @media (max-width: 800px) {
+    padding: 0 1rem;
+    height: 56px;
+  }
   @media (max-width: 443px) {
-    padding: 2rem 1rem;
+    padding: 0 0.75rem;
+    height: 48px;
   }
 `;

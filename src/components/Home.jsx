@@ -1,17 +1,22 @@
 import styled from "styled-components";
-import {
-  getInitialPlaylistRapid,
-} from "../services/BodyServices";
+import { getInitialPlaylistRapid } from "../services/BodyServices";
 import { SET_PLAYING } from "../store/spotifySlice";
 import { useEffect, useState } from "react";
 import { IoPlayCircle } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
+import { truncateString } from "../utils/helpers";
+import { CardSkeleton, ErrorMessage } from "./LoadingSkeleton";
 
 export default function Home() {
-
-  const selectedPlaylistRapid = useSelector((state) => state.spotifyData.selectedPlaylistRapid)
-  const selectedPlaylistId = useSelector((state) => state.spotifyData.selectedPlaylistId)
-  const dispatch = useDispatch()
+  const selectedPlaylistRapid = useSelector(
+    (state) => state.spotifyData.selectedPlaylistRapid,
+  );
+  const selectedPlaylistId = useSelector(
+    (state) => state.spotifyData.selectedPlaylistId,
+  );
+  const isLoading = useSelector((state) => state.spotifyData.isLoading);
+  const error = useSelector((state) => state.spotifyData.error);
+  const dispatch = useDispatch();
 
   const [isHovered, setIsHovered] = useState([]);
 
@@ -22,15 +27,26 @@ export default function Home() {
   }, [selectedPlaylistRapid]);
 
   useEffect(() => {
-    getInitialPlaylistRapid(dispatch, "37i9dQZF1DWXtlo6ENS92N");
-  }, [selectedPlaylistId]);
+    getInitialPlaylistRapid(dispatch, selectedPlaylistId);
+  }, [selectedPlaylistId, dispatch]);
 
-  function truncateString(inputString, maxLength) {
-    if (inputString.length <= maxLength) {
-      return `${inputString}`;
-    } else {
-      return `${inputString.substring(0, maxLength)}...`;
-    }
+  if (error && !selectedPlaylistRapid) {
+    return (
+      <ErrorMessage
+        message={error}
+        onRetry={() => getInitialPlaylistRapid(dispatch, selectedPlaylistId)}
+      />
+    );
+  }
+
+  if (isLoading && !selectedPlaylistRapid) {
+    return (
+      <Container>
+        <div className="homeContainer">
+          <CardSkeleton count={32} />
+        </div>
+      </Container>
+    );
   }
 
   return (
@@ -48,10 +64,8 @@ export default function Home() {
                   trackImage,
                   preview_url,
                   context_uri,
-                  album,
-                  duration,
                 },
-                index
+                index,
               ) => {
                 return (
                   <div
@@ -59,22 +73,21 @@ export default function Home() {
                     key={id}
                     onMouseEnter={() => {
                       setIsHovered((prev) =>
-                        prev.map((_, i) => (i === index ? true : _))
+                        prev.map((val, i) => (i === index ? true : val)),
                       );
                     }}
                     onMouseLeave={() => {
                       setIsHovered((prev) =>
-                        prev.map((_, i) => (i === index ? false : _))
+                        prev.map((val, i) => (i === index ? false : val)),
                       );
                     }}
                   >
                     <div className="songCardImage">
-                      <img src={trackImageHome} alt="track" />
+                      <img src={trackImageHome} alt={name} />
                       {isHovered[index] && (
                         <div
                           className="songCardPlayIcon"
                           onClick={() => {
-
                             const currentPlaying = {
                               id,
                               name,
@@ -90,16 +103,15 @@ export default function Home() {
                         </div>
                       )}
                     </div>
-
                     <div className="songCardName">
-                      {truncateString(name, 25)}
+                      {truncateString(name, 22)}
                     </div>
                     <div className="songCardArtistName">
-                      {truncateString(`${[...artists].join(", ")}`, 25)}
+                      {truncateString(`${[...artists].join(", ")}`, 28)}
                     </div>
                   </div>
                 );
-              }
+              },
             )}
         </div>
       </div>
@@ -109,77 +121,114 @@ export default function Home() {
 
 const Container = styled.div`
   .homeContainer {
-    padding: 1rem 1rem;
+    padding: 1rem 1.5rem;
+    @media (max-width: 800px) {
+      padding: 0.75rem;
+    }
     .songContainer {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
       grid-gap: 1rem;
+
+      /* Laptop / Desktop */
+      @media (min-width: 1200px) {
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      }
+
       .songCard {
         color: #fff;
-        border-radius: 0.8rem;
+        border-radius: 8px;
         display: flex;
         align-items: flex-start;
-        flex-wrap: wrap;
         flex-direction: column;
-        align-content: space-around;
-        padding: 1rem 25px;
+        padding: 14px;
+        background-color: rgba(255, 255, 255, 0.05);
+        transition: background-color 0.3s ease;
+        cursor: pointer;
         &:hover {
-          background-color: rgba(0, 0, 0, 0.5);
+          background-color: rgba(255, 255, 255, 0.12);
         }
         .songCardImage {
           position: relative;
+          width: 100%;
           img {
-            width: 8rem;
-            height: 8rem;
-            object-fit: contain;
-            border-radius: 0.8rem;
-            z-index: -1;
-            @media (max-width: 800px) {
-              width: 6.5rem;
-              height: 6.5rem;
-            }
+            width: 100%;
+            aspect-ratio: 1;
+            object-fit: cover;
+            border-radius: 6px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
           }
           .songCardPlayIcon {
             position: absolute;
             color: #1db954;
-            bottom: -0.7rem;
-            right: -0.2rem;
-            transform: translate(-0.1rem, -0.1rem);
-            font-size: 3rem;
+            bottom: 8px;
+            right: 8px;
+            font-size: 2.8rem;
             cursor: pointer;
-            opacity: 1;
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.5));
             animation: fadeIn 0.3s ease-in;
             @keyframes fadeIn {
               from {
                 opacity: 0;
+                transform: translateY(8px);
               }
               to {
                 opacity: 1;
+                transform: translateY(0);
               }
-            }
-            @media (max-width: 800px) {
-              font-size: 2.5rem;
             }
           }
         }
         .songCardName {
-          margin: 2px 0;
+          margin-top: 10px;
           font-weight: 600;
+          font-size: 0.85rem;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          width: 100%;
+          line-height: 1.3;
         }
         .songCardArtistName {
-          margin: 0;
-          font-size: 0.7rem;
-           @media (max-width: 800px) {
-           display:none;
-           }
-        }
-        @media (max-width: 800px) {
-          align-items: center;
-          padding: 1rem 13px;
+          margin-top: 4px;
+          font-size: 0.72rem;
+          color: #b3b3b3;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          width: 100%;
+          line-height: 1.3;
         }
       }
+
+      /* Tablet */
       @media (max-width: 800px) {
-        grid-template-columns: repeat(auto-fit, minmax(7.5rem, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+        grid-gap: 0.75rem;
+        .songCard {
+          padding: 10px;
+          .songCardPlayIcon {
+            font-size: 2.2rem;
+          }
+        }
+      }
+
+      /* Mobile */
+      @media (max-width: 443px) {
+        grid-template-columns: repeat(3, 1fr);
+        grid-gap: 0.5rem;
+        .songCard {
+          padding: 8px;
+          .songCardName {
+            font-size: 0.75rem;
+          }
+          .songCardArtistName {
+            font-size: 0.65rem;
+          }
+          .songCardPlayIcon {
+            font-size: 2rem;
+          }
+        }
       }
     }
   }

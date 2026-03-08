@@ -1,40 +1,34 @@
-import axios from "axios";
-import { SET_PLAYLIST_RAPID, SET_PLAYING } from "../store/spotifySlice";
+import apiClient from "./apiClient";
+import {
+  SET_PLAYLIST_RAPID,
+  SET_LOADING,
+  SET_ERROR,
+} from "../store/spotifySlice";
 
-const X_RapidAPI_Key = import.meta.env.VITE_X_RAPID_API_KEY;
-const X_RapidAPI_Host = import.meta.env.VITE_X_RAPID_API_HOST;
-
-// Declare AbortControllers for each request type globally
 let playlistController = null;
-let trackController = null;
 
-// Function to get the initial playlist
 export const getInitialPlaylistRapid = async (dispatch, selectedPlaylistId) => {
-  // Cancel previous request if it exists
   if (playlistController) {
     playlistController.abort();
   }
 
-  // Create a new AbortController
   playlistController = new AbortController();
 
+  dispatch(SET_LOADING(true));
+  dispatch(SET_ERROR(null));
+
   try {
-    const response = await axios.get(
-      `https://spotify81.p.rapidapi.com/playlist`,
-      {
-        params: { id: selectedPlaylistId },
-        headers: {
-          "X-RapidAPI-Key": X_RapidAPI_Key,
-          "X-RapidAPI-Host": X_RapidAPI_Host,
-        },
-        signal: playlistController.signal,  // Pass the signal to Axios
-      }
-    );
+    const response = await apiClient.get("/playlist", {
+      params: { id: selectedPlaylistId },
+      signal: playlistController.signal,
+    });
 
     const selectedPlaylistRapid = {
       id: response.data.id,
       name: response.data.name,
-      description: response.data.description.startsWith("<a") ? "" : response.data.description,
+      description: response.data.description.startsWith("<a")
+        ? ""
+        : response.data.description,
       image: response.data.images[0].url,
       trackImage: response.data.tracks.items[0].track.album.images[2].url,
       preview_url: response.data.tracks.items[0].track.preview_url,
@@ -54,50 +48,13 @@ export const getInitialPlaylistRapid = async (dispatch, selectedPlaylistId) => {
 
     dispatch(SET_PLAYLIST_RAPID(selectedPlaylistRapid));
   } catch (error) {
-    if (error.name === 'CanceledError') {
+    if (error.name === "CanceledError") {
       console.log("Playlist request was canceled:", error.message);
     } else {
       console.error("Error fetching the playlist:", error);
+      dispatch(SET_ERROR("Failed to load playlist"));
     }
-  }
-};
-
-// Function to play a specific track
-export const playTrackRapid = async (dispatch, id, name, artists, trackImage, context_uri) => {
-  // Cancel previous request if it exists
-  if (trackController) {
-    trackController.abort();
-  }
-
-  // Create a new AbortController
-  trackController = new AbortController();
-
-  try {
-    const url = `https://spotify81.p.rapidapi.com/tracks`;
-    const response = await axios.get(url, {
-      params: { ids: id },
-      headers: {
-        "X-RapidAPI-Key": X_RapidAPI_Key,
-        "X-RapidAPI-Host": X_RapidAPI_Host,
-      },
-      signal: trackController.signal,  // Pass the signal to Axios
-    });
-
-    const currentPlaying = {
-      id,
-      name,
-      artists,
-      trackImage,
-      preview_url: response.data.tracks[0].preview_url,
-      context_uri,
-    };
-
-    dispatch(SET_PLAYING(currentPlaying));
-  } catch (error) {
-    if (error.name === 'CanceledError') {
-      console.log("Track request was canceled:", error.message);
-    } else {
-      console.error("Error fetching the track:", error);
-    }
+  } finally {
+    dispatch(SET_LOADING(false));
   }
 };

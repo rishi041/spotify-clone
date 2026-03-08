@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice } from "@reduxjs/toolkit";
 
 export const initialState = {
   userInfoRapid: null,
@@ -7,6 +7,10 @@ export const initialState = {
   selectedPlaylistRapid: null,
   selectedPlaylistId: "37i9dQZF1DWXtlo6ENS92N",
   searchPlaylistRapid: [],
+  isLoading: false,
+  error: null,
+  isSearching: false,
+  searchError: null,
 };
 
 export const spotifySlice = createSlice({
@@ -14,43 +18,49 @@ export const spotifySlice = createSlice({
   initialState,
   reducers: {
     SET_USER_RAPID: (state, action) => {
-      return {
-        ...state,
-        userInfoRapid: action.payload,
-      }
+      state.userInfoRapid = action.payload;
     },
     SET_PLAYLISTS_RAPID: (state, action) => {
-      return {
-        ...state,
-        playlistsRapid: action.payload,
-      };
+      state.playlistsRapid = action.payload;
     },
     SET_PLAYING: (state, action) => {
-      return {
-        ...state,
-        currentPlaying: action.payload,
-      };
+      state.currentPlaying = action.payload;
     },
     SET_PLAYLIST_RAPID: (state, action) => {
-      return {
-        ...state,
-        selectedPlaylistRapid: action.payload,
-      };
+      state.selectedPlaylistRapid = action.payload;
     },
     SET_PLAYLIST_ID: (state, action) => {
-      return {
-        ...state,
-        selectedPlaylistId: action.payload,
-      };
+      state.selectedPlaylistId = action.payload;
     },
     SET_SEARCH_RAPID: (state, action) => {
-      return {
-        ...state,
-        searchPlaylistRapid: action.payload,
-      };
-    }
-  }
-})
+      state.searchPlaylistRapid = action.payload;
+    },
+    SET_LOADING: (state, action) => {
+      state.isLoading = action.payload;
+    },
+    SET_ERROR: (state, action) => {
+      state.error = action.payload;
+    },
+    SET_SEARCHING: (state, action) => {
+      state.isSearching = action.payload;
+    },
+    SET_SEARCH_ERROR: (state, action) => {
+      state.searchError = action.payload;
+    },
+  },
+});
 
-export const { SET_USER_RAPID, SET_PLAYLISTS_RAPID, SET_PLAYING, SET_PLAYLIST_RAPID, SET_PLAYLIST_ID, SET_SEARCH_RAPID } = spotifySlice.actions
-export default spotifySlice.reducer
+export const {
+  SET_USER_RAPID,
+  SET_PLAYLISTS_RAPID,
+  SET_PLAYING,
+  SET_PLAYLIST_RAPID,
+  SET_PLAYLIST_ID,
+  SET_SEARCH_RAPID,
+  SET_LOADING,
+  SET_ERROR,
+  SET_SEARCHING,
+  SET_SEARCH_ERROR,
+} = spotifySlice.actions;
+
+export default spotifySlice.reducer;
