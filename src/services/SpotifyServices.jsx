@@ -1,38 +1,29 @@
-import axios from "axios";
-import { SET_USER_RAPID } from '../store/spotifySlice';
+import apiClient from "./apiClient";
+import { SET_USER_RAPID, SET_LOADING, SET_ERROR } from "../store/spotifySlice";
 
-const X_RapidAPI_Key = import.meta.env.VITE_X_RAPID_API_KEY;
-const X_RapidAPI_Host = import.meta.env.VITE_X_RAPID_API_HOST;
 const User_Id = import.meta.env.VITE_USER_ID;
 
-// Declare an AbortController for the user info request
 let userInfoController = null;
 
 export const getUserInfoRapid = async (dispatch) => {
-  // Cancel previous request if it exists
   if (userInfoController) {
     userInfoController.abort();
   }
 
-  // Create a new AbortController
   userInfoController = new AbortController();
 
+  dispatch(SET_LOADING(true));
+  dispatch(SET_ERROR(null));
+
   try {
-    const { data } = await axios.get(
-      "https://spotify81.p.rapidapi.com/user_profile",
-      {
-        params: {
-          id: User_Id,
-          playlistLimit: "10",
-          artistLimit: "10",
-        },
-        headers: {
-          "X-RapidAPI-Key": X_RapidAPI_Key,
-          "X-RapidAPI-Host": X_RapidAPI_Host,
-        },
-        signal: userInfoController.signal,  // Pass the signal to Axios
+    const { data } = await apiClient.get("/user_profile", {
+      params: {
+        id: User_Id,
+        playlistLimit: "10",
+        artistLimit: "10",
       },
-    );
+      signal: userInfoController.signal,
+    });
 
     const userInfoRapid = {
       userId: User_Id,
@@ -44,10 +35,13 @@ export const getUserInfoRapid = async (dispatch) => {
 
     dispatch(SET_USER_RAPID(userInfoRapid));
   } catch (error) {
-    if (error.name === 'CanceledError') {
+    if (error.name === "CanceledError") {
       console.log("User info request was canceled:", error.message);
     } else {
       console.error("Error fetching user info:", error);
+      dispatch(SET_ERROR("Failed to load user info"));
     }
+  } finally {
+    dispatch(SET_LOADING(false));
   }
 };

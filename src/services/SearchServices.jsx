@@ -1,24 +1,24 @@
-import axios from "axios";
-import { SET_SEARCH_RAPID } from '../store/spotifySlice';
+import apiClient from "./apiClient";
+import {
+  SET_SEARCH_RAPID,
+  SET_SEARCHING,
+  SET_SEARCH_ERROR,
+} from "../store/spotifySlice";
 
-const X_RapidAPI_Key = import.meta.env.VITE_X_RAPID_API_KEY;
-const X_RapidAPI_Host = import.meta.env.VITE_X_RAPID_API_HOST;
-
-let controller = null; // Declare the AbortController globally in this module
+let controller = null;
 
 export const getSearchRapidData = async (dispatch, search) => {
-  // Cancel the previous request if it's still active
   if (controller) {
     controller.abort();
   }
 
-  // Create a new controller for the current request
   controller = new AbortController();
 
+  dispatch(SET_SEARCHING(true));
+  dispatch(SET_SEARCH_ERROR(null));
+
   try {
-    const url = `https://spotify81.p.rapidapi.com/search`;
-    
-    const response = await axios.get(url, {
+    const response = await apiClient.get("/search", {
       params: {
         q: search,
         type: "tracks",
@@ -26,22 +26,20 @@ export const getSearchRapidData = async (dispatch, search) => {
         limit: "50",
         numberOfTopResults: "5",
       },
-      headers: {
-        "X-RapidAPI-Key": X_RapidAPI_Key,
-        "X-RapidAPI-Host": X_RapidAPI_Host,
-      },
-      signal: controller.signal,  // Pass the signal to Axios
+      signal: controller.signal,
     });
 
     const searchPlaylistRapid = response.data;
     dispatch(SET_SEARCH_RAPID(searchPlaylistRapid));
-
   } catch (ex) {
-    if (ex.name === 'CanceledError') {
+    if (ex.name === "CanceledError") {
       console.log("Request was canceled:", ex.message);
     } else {
       console.log("Error in getSearchRapidData:", ex.message);
-      dispatch(SET_SEARCH_RAPID([]));  // Handle the error case
+      dispatch(SET_SEARCH_RAPID([]));
+      dispatch(SET_SEARCH_ERROR("Search failed. Please try again."));
     }
+  } finally {
+    dispatch(SET_SEARCHING(false));
   }
 };

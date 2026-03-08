@@ -4,59 +4,40 @@ import { AiFillGithub, AiFillInstagram } from "react-icons/ai";
 import { FaLinkedinIn } from "react-icons/fa";
 
 export default function Footer() {
-
   return (
     <Container>
-      <MusicPlayer />
+      <div className="playerSection">
+        <MusicPlayer />
+      </div>
       <div className="copyrightContainer">
-        <div div className="footerCopywright">
-          <div>Designed and Developed by Rushikesh Ganorkar</div>
+        <div className="footerCopywright">
+          <span>Designed and Developed by Rushikesh Ganorkar</span>
         </div>
-        <div div className="footerCopywright">
-          <div>Copyright © 2024 RG</div>
+        <div className="footerCopywright">
+          <span>Copyright &copy; 2024 RG</span>
         </div>
-        <div div className="footerBody">
-          <div className="footerIcons">
-            <div className="socialIcons">
-              <a
-                href="https://github.com/rishi041/"
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  textDecoration: "none",
-                  color: "white",
-                }}
-              >
-                <AiFillGithub />
-              </a>
-            </div>
-            <div className="socialIcons">
-              <a
-                href="https://www.linkedin.com/in/rushikesh-ganorkar-rd/"
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  textDecoration: "none",
-                  color: "white",
-                }}
-              >
-                <FaLinkedinIn />
-              </a>
-            </div>
-            <div className="socialIcons">
-              <a
-                href="https://www.instagram.com/"
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  textDecoration: "none",
-                  color: "white",
-                }}
-              >
-                <AiFillInstagram />
-              </a>
-            </div>
-          </div>
+        <div className="footerIcons">
+          <a
+            href="https://github.com/rishi041/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <AiFillGithub />
+          </a>
+          <a
+            href="https://www.linkedin.com/in/rushikesh-ganorkar-rd/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <FaLinkedinIn />
+          </a>
+          <a
+            href="https://www.instagram.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <AiFillInstagram />
+          </a>
         </div>
       </div>
     </Container>
@@ -68,46 +49,46 @@ const Container = styled.div`
   width: 100%;
   background-color: #181818;
   border-top: 1px solid #282828;
-  padding: 0 1rem;
-  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  .playerSection {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    padding: 0 1rem;
+    width: 100%;
+  }
   .copyrightContainer {
-    color: white;
+    color: #b3b3b3;
     display: flex;
     justify-content: space-around;
-    align-items: flex-end;
-    font-size: 0.7rem;
-    position: absolute;
-    bottom: 0rem;
-    width: 98vw;
+    align-items: center;
+    font-size: 0.65rem;
+    padding: 4px 1rem;
+    border-top: 1px solid #282828;
+    flex-shrink: 0;
     .footerCopywright {
-    }
-    .footerBody {
+      white-space: nowrap;
     }
     .footerIcons {
       display: flex;
-      align-items: flex-end;
-      flex-direction: row;
-      justify-content: space-around;
-      .socialIcons {
-        padding: 0 0.5rem;
+      gap: 0.8rem;
+      a {
+        color: #b3b3b3;
+        text-decoration: none;
+        font-size: 0.9rem;
+        transition: color 0.2s;
+        &:hover {
+          color: white;
+        }
       }
     }
     @media (max-width: 800px) {
-      position: absolute;
-      bottom: 0rem;
-      background: #181818;
-      font-size: 0.7rem;
-      flex-direction: row;
-      display: flex;
-      align-items: center;
-      width: 100%;
-      justify-content: space-evenly;
-    }
-    @media (max-width: 443px) {
-      font-size: 0.5rem;
+      display: none;
     }
   }
   @media (max-width: 800px) {
-    padding: 0;
+    padding-bottom: 68px;
   }
 `;

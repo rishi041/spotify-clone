@@ -3,46 +3,51 @@ import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { AiFillClockCircle } from "react-icons/ai";
 import { SET_PLAYING } from "../store/spotifySlice";
-import {
-  getInitialPlaylistRapid,
-} from "../services/BodyServices";
+import { getInitialPlaylistRapid } from "../services/BodyServices";
+import { msToMinutesAndSeconds } from "../utils/helpers";
+import { trackListStyles } from "./styles/TrackListStyles";
+import { TrackListSkeleton, ErrorMessage } from "./LoadingSkeleton";
 
-// eslint-disable-next-line react/prop-types
 export default function Body({ headerBackground }) {
-  const selectedPlaylistRapid = useSelector((state) => state.spotifyData.selectedPlaylistRapid)
-  const selectedPlaylistId = useSelector((state) => state.spotifyData.selectedPlaylistId)
-  const dispatch = useDispatch()
+  const selectedPlaylistRapid = useSelector(
+    (state) => state.spotifyData.selectedPlaylistRapid,
+  );
+  const selectedPlaylistId = useSelector(
+    (state) => state.spotifyData.selectedPlaylistId,
+  );
+  const isLoading = useSelector((state) => state.spotifyData.isLoading);
+  const error = useSelector((state) => state.spotifyData.error);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     getInitialPlaylistRapid(dispatch, selectedPlaylistId);
-  }, [selectedPlaylistId]);
+  }, [selectedPlaylistId, dispatch]);
 
-  const msToMinutesAndSeconds = (ms) => {
-    var minutes = Math.floor(ms / 60000);
-    var seconds = ((ms % 60000) / 1000).toFixed(0);
-    return minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
-  };
+  if (error && !selectedPlaylistRapid) {
+    return (
+      <ErrorMessage
+        message={error}
+        onRetry={() => getInitialPlaylistRapid(dispatch, selectedPlaylistId)}
+      />
+    );
+  }
+
+  if (isLoading && !selectedPlaylistRapid) {
+    return <TrackListSkeleton count={15} />;
+  }
+
   return (
-    <Container headerBackground={headerBackground}>
+    <Container $headerBackground={headerBackground}>
       {selectedPlaylistRapid && (
         <>
           <div className="playlist">
             <div className="image">
-
-              <img
-                src={selectedPlaylistRapid.image}
-                alt="selected playlist"
-              />
-
+              <img src={selectedPlaylistRapid.image} alt="selected playlist" />
             </div>
             <div className="details">
-
               <span className="type">PLAYLIST</span>
               <h1 className="title">{selectedPlaylistRapid.name}</h1>
-              <p className="description">
-                {selectedPlaylistRapid.description}
-              </p>
-
+              <p className="description">{selectedPlaylistRapid.description}</p>
             </div>
           </div>
           <div className="list">
@@ -62,7 +67,6 @@ export default function Body({ headerBackground }) {
                 </span>
               </div>
             </div>
-
 
             <div className="tracks">
               {selectedPlaylistRapid.tracks.map(
@@ -92,10 +96,8 @@ export default function Body({ headerBackground }) {
                           preview_url,
                           context_uri,
                         };
-
                         dispatch(SET_PLAYING(currentPlaying));
-                      }
-                      }
+                      }}
                     >
                       <div className="col">
                         <span>{index + 1}</span>
@@ -120,7 +122,6 @@ export default function Body({ headerBackground }) {
                 },
               )}
             </div>
-
           </div>
         </>
       )}
@@ -136,11 +137,13 @@ const Container = styled.div`
     gap: 2rem;
     @media (max-width: 800px) {
       gap: 0.5rem;
+      margin: 0 1rem;
     }
     .image {
       img {
         height: 15rem;
         box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;
+        border-radius: 4px;
         @media (max-width: 800px) {
           width: 7rem;
           height: 7rem;
@@ -155,75 +158,14 @@ const Container = styled.div`
       .title {
         color: white;
         font-size: 3rem;
+        @media (max-width: 800px) {
+          font-size: 1.8rem;
+        }
         @media (max-width: 443px) {
-          font-size: 2rem; 
+          font-size: 1.5rem;
         }
       }
     }
   }
-  .list {
-    .header-row {
-      display: grid;
-      grid-template-columns: 0.3fr 3fr 2fr 0.1fr;
-      margin: 1rem 0 0 0;
-      color: #dddcdc;
-      position: sticky;
-      top: 15vh;
-      padding: 1rem 3rem;
-      transition: 0.3s ease-in-out;
-      background-color: ${({ headerBackground }) =>
-    headerBackground ? "#000000dc" : "none"};
-      @media (max-width: 443px) {
-        grid-template-columns: 0.3fr 3fr 0.1fr 0.1fr;
-        .albumName {
-          display: none;
-        }
-      }
-    }
-    .tracks {
-      margin: 0 1rem;
-      display: flex;
-      flex-direction: column;
-      margin-bottom: 5rem;
-      .row {
-        padding: 0.5rem 1rem;
-        display: grid;
-        grid-template-columns: 0.3fr 3fr 2fr 0.1fr;
-        &:hover {
-          background-color: rgba(0, 0, 0, 0.7);
-          cursor: pointer;
-        }
-        .col {
-          display: flex;
-          align-items: center;
-          color: #dddcdc;
-          font-size: 0.875rem;
-          img {
-            height: 40px;
-            width: 40px;
-          }
-        }
-        .detail {
-          display: flex;
-          gap: 1rem;
-          .info {
-            display: flex;
-            flex-direction: column;
-            .name {
-              font-weight: 600;
-            }
-            .artistsName{
-              font-size: 0.7rem;
-            }
-          }
-        }
-        @media (max-width: 443px) {
-          grid-template-columns: 0.3fr 3fr 0.1fr 0.1fr;
-          .albumName{
-            display: none;
-          }
-        }
-      }
-    }
-  }
+  ${trackListStyles}
 `;
